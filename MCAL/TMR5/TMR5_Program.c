@@ -14,8 +14,8 @@
 /*Public Functions Definitions*/
 /* 
  * Function	: TMR5_Init			: Initialize Timer 5
- * Input1 	: incpy_u8Mode		: Mode of Operation for the Timer	: TMR5_CTC, TMR5_PWM, TMR5_COUNTER
- * Input2 	: incpy_u8Prescaler	: Pre-scaler for Timer 5			: TMR5_PRESCALER5 - TMR5_EXTERNAL_RISE
+ * Input1 	: incpy_u8Mode		: Mode of Operation for the Timer	: TMR5_CTC_REPEAT - TMR5_COUNTER_ONCE
+ * Input2 	: incpy_u8Prescaler	: Pre-scaler for Timer 5			: TMR5_PRESCALER1 - TMR5_EXTERNAL_RISE
  * Return 	:					: Error Status of function
  */
 ErrorStatus TMR5_Init(u8 incpy_u8Mode, u8 incpy_u8Prescaler)
@@ -24,9 +24,11 @@ ErrorStatus TMR5_Init(u8 incpy_u8Mode, u8 incpy_u8Prescaler)
 	{
 		return INVALID_PARAMETERS;
 	}
+
 	switch (incpy_u8Mode)
 	{
-	case TMR5_CTC:
+	case TMR5_CTC_REPEAT:
+	case TMR5_CTC_ONCE:
 		/* TCCR5A Register Bits Description:
 		 * COM5A1:0 (bits 7:6) choose 00 for normal port operation for pin OC5A
 		 * COM5B1:0 (bits 5:4) choose 00 for normal port operation for pin OC5B
@@ -61,10 +63,10 @@ ErrorStatus TMR5_Init(u8 incpy_u8Mode, u8 incpy_u8Prescaler)
 		 */
 		TCCR5B = 0b00010000;
 		DIO_PinInit(DIO_PORTL, DIO_PIN4, DIO_PIN_OUTPUT, DIO_PIN_LOW);
-		Glob_u8TMR5_CTC_MODE = TMR5_CTCMODE_NOTCTC;
 		break;
 
-	case TMR5_COUNTER:
+	case TMR5_COUNTER_ONCE:
+	case TMR5_COUNTER_REPEAT:
 		if(TMR5_EXTERNAL_FALL > incpy_u8Prescaler)
 		{
 			return INVALID_PARAMETERS;
@@ -84,39 +86,39 @@ ErrorStatus TMR5_Init(u8 incpy_u8Mode, u8 incpy_u8Prescaler)
 		 * CS52:50 	(bits 2:0) for pre-scaler which will be selected later.
 		 */
 		TCCR5B = 0b00001000;
-		Glob_u8TMR5_CTC_MODE = TMR5_CTCMODE_NOTCTC;
 		break;
 
 	default:
 		return INVALID_PARAMETERS;
 	}
-	Glob_u8TMR5_Prescaler = incpy_u8Prescaler;
+
+	Glob_u8TMR5_MODE = incpy_u8Mode;			/*Setting Timer 5 mode for later use*/
+	Glob_u8TMR5_Prescaler = incpy_u8Prescaler;	/*Setting Timer 5 prescaler for later use*/
 
 	return NO_ERROR;
 }
 
 /*
  * Function	: TMR5_CTC_MS			: Set a function to be executed after/every x milliseconds
- * Input1 	: incpy_u8CTCMode		: after/every			: TMR5_CTCMODE_REPEAT, TMR5_CTCMODE_ONCE
- * Input2 	: incpy_u16TimeMilliSec	: x milliseconds		: 0 - 0xFFFF
- * Input3 	: inptr_vdISR			: Pointer to Function	: Function to be executed
+ * Input1 	: incpy_u16TimeMilliSec	: x milliseconds		: 0 - 0xFFFF
+ * Input2 	: inptr_vdISR			: Pointer to Function	: Function to be executed
  * Return 	:						: Error Status of function
  */
-ErrorStatus TMR5_CTC_MS(u8 incpy_u8CTCMode, u16 incpy_u16TimeMilliSec ,void (*inptr_vdISR) (void))
+ErrorStatus TMR5_CTC_MS(u16 incpy_u16TimeMilliSec, void (*inptr_vdISR) (void))
 {
+	if (TMR5_CTC_ONCE != Glob_u8TMR5_MODE && TMR5_CTC_REPEAT != Glob_u8TMR5_MODE)
+	{
+		return INVALID_FUNCTION;
+	}
 	if (NULL == inptr_vdISR)
 	{
 		return NULL_POINTER_PASSED;
 	}
-	if (TMR5_CTCMODE_ONCE < incpy_u8CTCMode)
-	{
-		return INVALID_PARAMETERS;
-	}
-	Glob_u8TMR5_CTC_MODE = incpy_u8CTCMode;
-	Globptr_vdTMR5_CTC_ISR = inptr_vdISR;
+
+	Globptr_vdTMR5_CTC_ISR = inptr_vdISR;	/*Setting the pointer to function for use in the ISR*/
 
 	DISABLE_GLOB_INT(void);			/*Disabling interrupts as accessing a 16-bit register is an atomic operation*/
-	TCNT5 = 0x0000;				/*Clear Timer*/
+	TCNT5 = 0x0000;					/*Clear Timer*/
 	switch (Glob_u8TMR5_Prescaler)	/*Setting timer top value*/
 	{
 	case TMR5_PRESCALER1:
@@ -139,37 +141,37 @@ ErrorStatus TMR5_CTC_MS(u8 incpy_u8CTCMode, u16 incpy_u16TimeMilliSec ,void (*in
 		OCR5A = incpy_u16TimeMilliSec * (EXTERNAL_CLK_T5); 	break;
 
 	default:
-		/*Not possible...Do Nothing*/		break;
+		/*Not possible as prescaler has already been checked in the Init function...Do Nothing*/		
+		break;
 	}
-	SET_BYTE(TIFR5); 			/*Clearing all timer flags*/
-	TIMSK5 = 0x02; 				/*Enable output compare A match interrupt and disable all other timer 5 interrupts*/
-	ENABLE_GLOB_INT(void);			/*Enabling interrupts again*/
+	SET_BYTE(TIFR5); 					/*Clearing all timer flags*/
+	TIMSK5 = 0x02; 						/*Enable output compare A match interrupt and disable all other timer 5 interrupts*/
+	ENABLE_GLOB_INT(void);				/*Enabling interrupts again*/
 	TCCR5B |= Glob_u8TMR5_Prescaler; 	/*Turning the timer on by setting pre-scaler*/
 	return NO_ERROR;
 }
 
 /*
  * Function	: TMR5_CTC_S			: Set a function to be executed after/every x seconds
- * Input1 	: incpy_u8CTCMode		: after/every			: TMR5_CTCMODE_REPEAT, TMR5_CTCMODE_ONCE
- * Input2 	: incpy_u16TimeMilliSec	: x seconds				: 0 - 0xFFFF
- * Input3 	: inptr_vdISR			: Pointer to Function	: Function to be executed
+ * Input1 	: incpy_u16TimeMilliSec	: x seconds				: 0 - 0xFFFF
+ * Input2 	: inptr_vdISR			: Pointer to Function	: Function to be executed
  * Return 	:						: Error Status of function
  */
-ErrorStatus TMR5_CTC_S(u8 incpy_u8CTCMode, u16 incpy_u16TimeSec ,void (*inptr_vdISR) (void))
+ErrorStatus TMR5_CTC_S(u16 incpy_u16TimeSec, void (*inptr_vdISR) (void))
 {
+	if (TMR5_CTC_ONCE != Glob_u8TMR5_MODE && TMR5_CTC_REPEAT != Glob_u8TMR5_MODE)
+	{
+		return INVALID_FUNCTION;
+	}
 	if (NULL == inptr_vdISR)
 	{
 		return NULL_POINTER_PASSED;
 	}
-	if (TMR5_CTCMODE_ONCE < incpy_u8CTCMode)
-	{
-		return INVALID_PARAMETERS;
-	}
-	Glob_u8TMR5_CTC_MODE = incpy_u8CTCMode;
-	Globptr_vdTMR5_CTC_ISR = inptr_vdISR;
+	
+	Globptr_vdTMR5_CTC_ISR = inptr_vdISR;	/*Setting the pointer to function for use in the ISR*/
 
 	DISABLE_GLOB_INT(void);			/*Disabling interrupts as accessing a 16-bit register is an atomic operation*/
-	TCNT5 = 0x0000;				/*Clear Timer*/
+	TCNT5 = 0x0000;					/*Clear Timer*/
 	switch (Glob_u8TMR5_Prescaler)	/*Setting timer top value*/
 	{
 	case TMR5_PRESCALER1:
@@ -192,65 +194,76 @@ ErrorStatus TMR5_CTC_S(u8 incpy_u8CTCMode, u16 incpy_u16TimeSec ,void (*inptr_vd
 		OCR5A = incpy_u16TimeSec * (EXTERNAL_CLK_T5) * 1000;	break;
 
 	default:
-		/*Not possible...Do Nothing*/		break;
+		/*Not possible as prescaler has already been checked in the Init function...Do Nothing*/		
+		break;
 	}
-	SET_BYTE(TIFR5); 			/*Clearing all timer flags*/
-	TIMSK5 = 0x02; 				/*Enable output compare A match interrupt and disable all other timer 5 interrupts*/
-	ENABLE_GLOB_INT(void);			/*Enabling interrupts again*/
+	SET_BYTE(TIFR5); 					/*Clearing all timer flags*/
+	TIMSK5 = 0x02; 						/*Enable output compare A match interrupt and disable all other timer 5 interrupts*/
+	ENABLE_GLOB_INT(void);				/*Enabling interrupts again*/
 	TCCR5B |= Glob_u8TMR5_Prescaler; 	/*Turning the timer on by setting pre-scaler*/
 	return NO_ERROR;
 }
 
 /*
  * Function	: TMR5_Counter			: Set a function to be executed after/every x edges on pin T5
- * Input1 	: incpy_u8CounterMode	: after/every			: TMR5_COUNTERMODE_REPEAT, TMR5_COUNTERMODE_ONCE
- * Input2 	: incpy_u16Count		: x times				: 0 - 0xFFFF
- * Input3 	: inptr_vdISR			: Pointer to Function	: Function to be executed
+ * Input1 	: incpy_u16Count		: x times				: 0 - 0xFFFF
+ * Input2 	: inptr_vdISR			: Pointer to Function	: Function to be executed
  * Return 	:						: Error Status of function
  */
-ErrorStatus TMR5_Counter(u8 incpy_u8CounterMode, u16 incpy_u16Count ,void (*inptr_vdISR) (void))
+ErrorStatus TMR5_Counter(u16 incpy_u16Count, void (*inptr_vdISR) (void))
 {
+	if (TMR5_COUNTER_ONCE != Glob_u8TMR5_MODE && TMR5_COUNTER_REPEAT != Glob_u8TMR5_MODE)
+	{
+		return INVALID_FUNCTION;
+	}
 	if (NULL == inptr_vdISR)
 	{
 		return NULL_POINTER_PASSED;
 	}
-	if (TMR5_COUNERMODE_ONCE < incpy_u8CounterMode)
-	{
-		return INVALID_PARAMETERS;
-	}
-	Glob_u8TMR5_CTC_MODE = incpy_u8CounterMode;
-	Globptr_vdTMR5_CTC_ISR = inptr_vdISR;
+
+	Globptr_vdTMR5_CTC_ISR = inptr_vdISR;	/*Setting the pointer to function for use in the ISR*/
 
 	DISABLE_GLOB_INT(void);			/*Disabling interrupts as accessing a 16-bit register is an atomic operation*/
-	TCNT5 = 0x0000;				/*Clear Timer*/
+	TCNT5 = 0x0000;					/*Clear Timer*/
 
 	OCR5A = incpy_u16Count - 1;		/*Setting timer top value. The -1 is because the timer takes an extra timer clock cycle to call the ISR*/
 
-	SET_BYTE(TIFR5); 			/*Clearing all timer flags*/
-	TIMSK5 = 0x02; 				/*Enable output compare A match interrupt and disable all other timer 5 interrupts*/
-	ENABLE_GLOB_INT(void);			/*Enabling interrupts again*/
+	SET_BYTE(TIFR5); 					/*Clearing all timer flags*/
+	TIMSK5 = 0x02; 						/*Enable output compare A match interrupt and disable all other timer 5 interrupts*/
+	ENABLE_GLOB_INT(void);				/*Enabling interrupts again*/
 	TCCR5B |= Glob_u8TMR5_Prescaler; 	/*Turning the timer on by setting pre-scaler*/
 	return NO_ERROR;
 }
 
 /*
- * Function	: TMR5_PWMStart		: Start a PWM signal on pin OC5B with a 50% duty Cycle
- * Input1 	: incpy_u8Frequency	: Frequency of the PWM in Hz		: 0 - 0xFFFF
- * Input2 	: inptr_vdISR		: Pointer to Function	: Function to be executed
- * Return 	:					: Error Status of function
+ * Function	: TMR5_PWMStart				: Start a PWM signal on pin OC5B with a 50% duty Cycle
+ * Input1 	: incpy_u8Frequency			: Frequency of the PWM in Hz			: 0 - 0xFFFF
+ * Input2 	: incpy_u8RunCallBackFunc	: Whether to run a callback function	: TRUE, FALSE 
+ * Input3 	: inptr_vdISR				: Pointer to Function					: Function to be executed
+ * Return 	:							: Error Status of function
  */
-ErrorStatus TMR5_PWMStart(u16 incpy_u8Frequency, void (*inptr_vdISR) (void))
+ErrorStatus TMR5_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8RunCallBackFunc, void (*inptr_vdISR) (void))
 {
 	u32 Loc_OCR5AValue = 0;
+	u8 Loc_u8GlobIntStatus = 0;
+
+	if (TMR5_PWM != Glob_u8TMR5_MODE)
+	{
+		return INVALID_FUNCTION;
+	}
+	if (TRUE == incpy_u8RunCallBackFunc && NULL == inptr_vdISR)
+	{
+		return NULL_POINTER_PASSED;
+	}
+	if (TRUE < incpy_u8RunCallBackFunc)
+	{
+		return INVALID_PARAMETERS;
+	}
 
 	if (0 == incpy_u8Frequency)
 	{
 		TCCR5B &= 0xF8;		/*Turning Timer off by removing pre-scaler*/
 		return NO_ERROR;
-	}
-	if (NULL == inptr_vdISR)
-	{
-		return NULL_POINTER_PASSED;
 	}
 
 	switch(Glob_u8TMR5_Prescaler)		/*Setting TOP Value in OCR5A using required frequency*/
@@ -286,18 +299,25 @@ ErrorStatus TMR5_PWMStart(u16 incpy_u8Frequency, void (*inptr_vdISR) (void))
 	Loc_OCR5AValue = (0xFFFF < Loc_OCR5AValue) ? 0xFFFF : Loc_OCR5AValue;
 
 	Globptr_vdTMR5_CTC_ISR = inptr_vdISR;
-
+	
 	/*Disabling Global Interrupt while accessing a 16-bit registers*/
-	DISABLE_GLOB_INT(void);
+	Loc_u8GlobIntStatus = GET_GLOB_INT();
+	DISABLE_GLOB_INT();
 
 	OCR5A = Loc_OCR5AValue;
-
 	OCR5B = OCR5A >> 1;
-	
-	ENABLE_GLOB_INT();
 
-	TIMSK5 = 0x02; 				/*Enable output compare A match interrupt and disable all other timer 5 interrupts*/
-	
+	if (TRUE == incpy_u8RunCallBackFunc)
+	{
+		ENABLE_GLOB_INT();
+		TIMSK5 = 0x02; 				/*Enable output compare A match interrupt and disable all other timer 5 interrupts*/
+	}
+	else
+	{
+		MAKE_GLOB_INT(Loc_u8GlobIntStatus);
+		TIMSK5 = 0x00; 				/*Disable all timer 5 interrupts*/
+	}
+
 	TCCR5B |= Glob_u8TMR5_Prescaler; 	/*Turning the timer on by setting pre-scaler*/
 	return NO_ERROR;
 }
@@ -321,7 +341,7 @@ ErrorStatus TMR5_Stop(void)
  */
 void __vector_47(void)
 {
-	if (TMR5_CTCMODE_ONCE == Glob_u8TMR5_CTC_MODE)
+	if (TMR5_CTC_ONCE == Glob_u8TMR5_MODE || TMR5_COUNTER_ONCE == Glob_u8TMR5_MODE)
 	{
 		CLR_BYTE(TIMSK5);	/*Disabling the timer interrupts so that is does not keep calling the ISR indefinitely*/
 		TCCR5B &= 0xF8;		/*Turning Timer off by removing pre-scaler*/

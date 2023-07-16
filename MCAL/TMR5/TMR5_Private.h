@@ -38,7 +38,7 @@
 /*Global Variables Definitions*/
 static void (* Globptr_vdTMR5_CTC_ISR) (void) = NULL;
 static u8 Glob_u8TMR5_Prescaler = 0;
-static u8 Glob_u8TMR5_CTC_MODE = 0;
+static u8 Glob_u8TMR5_MODE = 0;
 /*__________________________________________________________________________________________________________________________________________*/
 
 
