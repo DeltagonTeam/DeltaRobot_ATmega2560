@@ -14,7 +14,7 @@
 /*Public Functions Definitions*/
 /* 
  * Function	: TMR4_Init			: Initialize Timer 4
- * Input1 	: incpy_u8Mode		: Mode of Operation for the Timer	: TMR4_CTC, TMR4_PWM, TMR4_COUNTER
+ * Input1 	: incpy_u8Mode		: Mode of Operation for the Timer	: TMR4_CTC_REPEAT - TMR4_COUNTER_ONCE
  * Input2 	: incpy_u8Prescaler	: Pre-scaler for Timer 4			: TMR4_PRESCALER1 - TMR4_EXTERNAL_RISE
  * Return 	:					: Error Status of function
  */
@@ -24,9 +24,11 @@ ErrorStatus TMR4_Init(u8 incpy_u8Mode, u8 incpy_u8Prescaler)
 	{
 		return INVALID_PARAMETERS;
 	}
+
 	switch (incpy_u8Mode)
 	{
-	case TMR4_CTC:
+	case TMR4_CTC_REPEAT:
+	case TMR4_CTC_ONCE:
 		/* TCCR4A Register Bits Description:
 		 * COM4A1:0 (bits 7:6) choose 00 for normal port operation for pin OC4A
 		 * COM4B1:0 (bits 5:4) choose 00 for normal port operation for pin OC4B
@@ -61,10 +63,10 @@ ErrorStatus TMR4_Init(u8 incpy_u8Mode, u8 incpy_u8Prescaler)
 		 */
 		TCCR4B = 0b00010000;
 		DIO_PinInit(DIO_PORTH, DIO_PIN4, DIO_PIN_OUTPUT, DIO_PIN_LOW);
-		Glob_u8TMR4_CTC_MODE = TMR4_CTCMODE_NOTCTC;
 		break;
 
-	case TMR4_COUNTER:
+	case TMR4_COUNTER_ONCE:
+	case TMR4_COUNTER_REPEAT:
 		if(TMR4_EXTERNAL_FALL > incpy_u8Prescaler)
 		{
 			return INVALID_PARAMETERS;
@@ -84,39 +86,39 @@ ErrorStatus TMR4_Init(u8 incpy_u8Mode, u8 incpy_u8Prescaler)
 		 * CS42:40 	(bits 2:0) for pre-scaler which will be selected later.
 		 */
 		TCCR4B = 0b00001000;
-		Glob_u8TMR4_CTC_MODE = TMR4_CTCMODE_NOTCTC;
 		break;
 
 	default:
 		return INVALID_PARAMETERS;
 	}
-	Glob_u8TMR4_Prescaler = incpy_u8Prescaler;
+
+	Glob_u8TMR4_MODE = incpy_u8Mode;			/*Setting Timer 4 mode for later use*/
+	Glob_u8TMR4_Prescaler = incpy_u8Prescaler;	/*Setting Timer 4 prescaler for later use*/
 
 	return NO_ERROR;
 }
 
 /*
  * Function	: TMR4_CTC_MS			: Set a function to be executed after/every x milliseconds
- * Input1 	: incpy_u8CTCMode		: after/every			: TMR4_CTCMODE_REPEAT, TMR4_CTCMODE_ONCE
- * Input2 	: incpy_u16TimeMilliSec	: x milliseconds		: 0 - 0xFFFF
- * Input3 	: inptr_vdISR			: Pointer to Function	: Function to be executed
+ * Input1 	: incpy_u16TimeMilliSec	: x milliseconds		: 0 - 0xFFFF
+ * Input2 	: inptr_vdISR			: Pointer to Function	: Function to be executed
  * Return 	:						: Error Status of function
  */
-ErrorStatus TMR4_CTC_MS(u8 incpy_u8CTCMode, u16 incpy_u16TimeMilliSec ,void (*inptr_vdISR) (void))
+ErrorStatus TMR4_CTC_MS(u16 incpy_u16TimeMilliSec, void (*inptr_vdISR) (void))
 {
+	if (TMR4_CTC_ONCE != Glob_u8TMR4_MODE && TMR4_CTC_REPEAT != Glob_u8TMR4_MODE)
+	{
+		return INVALID_FUNCTION;
+	}
 	if (NULL == inptr_vdISR)
 	{
 		return NULL_POINTER_PASSED;
 	}
-	if (TMR4_CTCMODE_ONCE < incpy_u8CTCMode)
-	{
-		return INVALID_PARAMETERS;
-	}
-	Glob_u8TMR4_CTC_MODE = incpy_u8CTCMode;
-	Globptr_vdTMR4_CTC_ISR = inptr_vdISR;
+
+	Globptr_vdTMR4_CTC_ISR = inptr_vdISR;	/*Setting the pointer to function for use in the ISR*/
 
 	DISABLE_GLOB_INT(void);			/*Disabling interrupts as accessing a 16-bit register is an atomic operation*/
-	TCNT4 = 0x0000;				/*Clear Timer*/
+	TCNT4 = 0x0000;					/*Clear Timer*/
 	switch (Glob_u8TMR4_Prescaler)	/*Setting timer top value*/
 	{
 	case TMR4_PRESCALER1:
@@ -139,37 +141,37 @@ ErrorStatus TMR4_CTC_MS(u8 incpy_u8CTCMode, u16 incpy_u16TimeMilliSec ,void (*in
 		OCR4A = incpy_u16TimeMilliSec * (EXTERNAL_CLK_T4); 	break;
 
 	default:
-		/*Not possible...Do Nothing*/		break;
+		/*Not possible as prescaler has already been checked in the Init function...Do Nothing*/		
+		break;
 	}
-	SET_BYTE(TIFR4); 			/*Clearing all timer flags*/
-	TIMSK4 = 0x02; 				/*Enable output compare A match interrupt and disable all other timer 4 interrupts*/
-	ENABLE_GLOB_INT(void);			/*Enabling interrupts again*/
+	SET_BYTE(TIFR4); 					/*Clearing all timer flags*/
+	TIMSK4 = 0x02; 						/*Enable output compare A match interrupt and disable all other timer 4 interrupts*/
+	ENABLE_GLOB_INT(void);				/*Enabling interrupts again*/
 	TCCR4B |= Glob_u8TMR4_Prescaler; 	/*Turning the timer on by setting pre-scaler*/
 	return NO_ERROR;
 }
 
 /*
  * Function	: TMR4_CTC_S			: Set a function to be executed after/every x seconds
- * Input1 	: incpy_u8CTCMode		: after/every			: TMR4_CTCMODE_REPEAT, TMR4_CTCMODE_ONCE
- * Input2 	: incpy_u16TimeMilliSec	: x seconds				: 0 - 0xFFFF
- * Input3 	: inptr_vdISR			: Pointer to Function	: Function to be executed
+ * Input1 	: incpy_u16TimeMilliSec	: x seconds				: 0 - 0xFFFF
+ * Input2 	: inptr_vdISR			: Pointer to Function	: Function to be executed
  * Return 	:						: Error Status of function
  */
-ErrorStatus TMR4_CTC_S(u8 incpy_u8CTCMode, u16 incpy_u16TimeSec ,void (*inptr_vdISR) (void))
+ErrorStatus TMR4_CTC_S(u16 incpy_u16TimeSec, void (*inptr_vdISR) (void))
 {
+	if (TMR4_CTC_ONCE != Glob_u8TMR4_MODE && TMR4_CTC_REPEAT != Glob_u8TMR4_MODE)
+	{
+		return INVALID_FUNCTION;
+	}
 	if (NULL == inptr_vdISR)
 	{
 		return NULL_POINTER_PASSED;
 	}
-	if (TMR4_CTCMODE_ONCE < incpy_u8CTCMode)
-	{
-		return INVALID_PARAMETERS;
-	}
-	Glob_u8TMR4_CTC_MODE = incpy_u8CTCMode;
-	Globptr_vdTMR4_CTC_ISR = inptr_vdISR;
+	
+	Globptr_vdTMR4_CTC_ISR = inptr_vdISR;	/*Setting the pointer to function for use in the ISR*/
 
 	DISABLE_GLOB_INT(void);			/*Disabling interrupts as accessing a 16-bit register is an atomic operation*/
-	TCNT4 = 0x0000;				/*Clear Timer*/
+	TCNT4 = 0x0000;					/*Clear Timer*/
 	switch (Glob_u8TMR4_Prescaler)	/*Setting timer top value*/
 	{
 	case TMR4_PRESCALER1:
@@ -192,65 +194,76 @@ ErrorStatus TMR4_CTC_S(u8 incpy_u8CTCMode, u16 incpy_u16TimeSec ,void (*inptr_vd
 		OCR4A = incpy_u16TimeSec * (EXTERNAL_CLK_T4) * 1000;	break;
 
 	default:
-		/*Not possible...Do Nothing*/		break;
+		/*Not possible as prescaler has already been checked in the Init function...Do Nothing*/		
+		break;
 	}
-	SET_BYTE(TIFR4); 			/*Clearing all timer flags*/
-	TIMSK4 = 0x02; 				/*Enable output compare A match interrupt and disable all other timer 4 interrupts*/
-	ENABLE_GLOB_INT(void);			/*Enabling interrupts again*/
+	SET_BYTE(TIFR4); 					/*Clearing all timer flags*/
+	TIMSK4 = 0x02; 						/*Enable output compare A match interrupt and disable all other timer 4 interrupts*/
+	ENABLE_GLOB_INT(void);				/*Enabling interrupts again*/
 	TCCR4B |= Glob_u8TMR4_Prescaler; 	/*Turning the timer on by setting pre-scaler*/
 	return NO_ERROR;
 }
 
 /*
  * Function	: TMR4_Counter			: Set a function to be executed after/every x edges on pin T4
- * Input1 	: incpy_u8CounterMode	: after/every			: TMR4_COUNTERMODE_REPEAT, TMR4_COUNTERMODE_ONCE
- * Input2 	: incpy_u16Count		: x times				: 0 - 0xFFFF
- * Input3 	: inptr_vdISR			: Pointer to Function	: Function to be executed
+ * Input1 	: incpy_u16Count		: x times				: 0 - 0xFFFF
+ * Input2 	: inptr_vdISR			: Pointer to Function	: Function to be executed
  * Return 	:						: Error Status of function
  */
-ErrorStatus TMR4_Counter(u8 incpy_u8CounterMode, u16 incpy_u16Count ,void (*inptr_vdISR) (void))
+ErrorStatus TMR4_Counter(u16 incpy_u16Count, void (*inptr_vdISR) (void))
 {
+	if (TMR4_COUNTER_ONCE != Glob_u8TMR4_MODE && TMR4_COUNTER_REPEAT != Glob_u8TMR4_MODE)
+	{
+		return INVALID_FUNCTION;
+	}
 	if (NULL == inptr_vdISR)
 	{
 		return NULL_POINTER_PASSED;
 	}
-	if (TMR4_COUNERMODE_ONCE < incpy_u8CounterMode)
-	{
-		return INVALID_PARAMETERS;
-	}
-	Glob_u8TMR4_CTC_MODE = incpy_u8CounterMode;
-	Globptr_vdTMR4_CTC_ISR = inptr_vdISR;
+
+	Globptr_vdTMR4_CTC_ISR = inptr_vdISR;	/*Setting the pointer to function for use in the ISR*/
 
 	DISABLE_GLOB_INT(void);			/*Disabling interrupts as accessing a 16-bit register is an atomic operation*/
-	TCNT4 = 0x0000;				/*Clear Timer*/
+	TCNT4 = 0x0000;					/*Clear Timer*/
 
 	OCR4A = incpy_u16Count - 1;		/*Setting timer top value. The -1 is because the timer takes an extra timer clock cycle to call the ISR*/
 
-	SET_BYTE(TIFR4); 			/*Clearing all timer flags*/
-	TIMSK4 = 0x02; 				/*Enable output compare A match interrupt and disable all other timer 4 interrupts*/
-	ENABLE_GLOB_INT(void);			/*Enabling interrupts again*/
+	SET_BYTE(TIFR4); 					/*Clearing all timer flags*/
+	TIMSK4 = 0x02; 						/*Enable output compare A match interrupt and disable all other timer 4 interrupts*/
+	ENABLE_GLOB_INT(void);				/*Enabling interrupts again*/
 	TCCR4B |= Glob_u8TMR4_Prescaler; 	/*Turning the timer on by setting pre-scaler*/
 	return NO_ERROR;
 }
 
 /*
- * Function	: TMR4_PWMStart		: Start a PWM signal on pin OC4B with a 50% duty Cycle
- * Input1 	: incpy_u8Frequency	: Frequency of the PWM in Hz		: 0 - 0xFFFF
- * Input2 	: inptr_vdISR		: Pointer to Function	: Function to be executed
- * Return 	:					: Error Status of function
+ * Function	: TMR4_PWMStart				: Start a PWM signal on pin OC4B with a 50% duty Cycle
+ * Input1 	: incpy_u8Frequency			: Frequency of the PWM in Hz			: 0 - 0xFFFF
+ * Input2 	: incpy_u8RunCallBackFunc	: Whether to run a callback function	: TRUE, FALSE 
+ * Input3 	: inptr_vdISR				: Pointer to Function					: Function to be executed
+ * Return 	:							: Error Status of function
  */
-ErrorStatus TMR4_PWMStart(u16 incpy_u8Frequency, void (*inptr_vdISR) (void))
+ErrorStatus TMR4_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8RunCallBackFunc, void (*inptr_vdISR) (void))
 {
 	u32 Loc_OCR4AValue = 0;
+	u8 Loc_u8GlobIntStatus = 0;
+
+	if (TMR4_PWM != Glob_u8TMR4_MODE)
+	{
+		return INVALID_FUNCTION;
+	}
+	if (TRUE == incpy_u8RunCallBackFunc && NULL == inptr_vdISR)
+	{
+		return NULL_POINTER_PASSED;
+	}
+	if (TRUE < incpy_u8RunCallBackFunc)
+	{
+		return INVALID_PARAMETERS;
+	}
 
 	if (0 == incpy_u8Frequency)
 	{
 		TCCR4B &= 0xF8;		/*Turning Timer off by removing pre-scaler*/
 		return NO_ERROR;
-	}
-	if (NULL == inptr_vdISR)
-	{
-		return NULL_POINTER_PASSED;
 	}
 
 	switch(Glob_u8TMR4_Prescaler)		/*Setting TOP Value in OCR4A using required frequency*/
@@ -286,18 +299,25 @@ ErrorStatus TMR4_PWMStart(u16 incpy_u8Frequency, void (*inptr_vdISR) (void))
 	Loc_OCR4AValue = (0xFFFF < Loc_OCR4AValue) ? 0xFFFF : Loc_OCR4AValue;
 
 	Globptr_vdTMR4_CTC_ISR = inptr_vdISR;
-
+	
 	/*Disabling Global Interrupt while accessing a 16-bit registers*/
-	DISABLE_GLOB_INT(void);
+	Loc_u8GlobIntStatus = GET_GLOB_INT();
+	DISABLE_GLOB_INT();
 
 	OCR4A = Loc_OCR4AValue;
-
 	OCR4B = OCR4A >> 1;
-	
-	ENABLE_GLOB_INT();
 
-	TIMSK4 = 0x02; 				/*Enable output compare A match interrupt and disable all other timer 4 interrupts*/
-	
+	if (TRUE == incpy_u8RunCallBackFunc)
+	{
+		ENABLE_GLOB_INT();
+		TIMSK4 = 0x02; 				/*Enable output compare A match interrupt and disable all other timer 4 interrupts*/
+	}
+	else
+	{
+		MAKE_GLOB_INT(Loc_u8GlobIntStatus);
+		TIMSK4 = 0x00; 				/*Disable all timer 4 interrupts*/
+	}
+
 	TCCR4B |= Glob_u8TMR4_Prescaler; 	/*Turning the timer on by setting pre-scaler*/
 	return NO_ERROR;
 }
@@ -321,7 +341,7 @@ ErrorStatus TMR4_Stop(void)
  */
 void __vector_42(void)
 {
-	if (TMR4_CTCMODE_ONCE == Glob_u8TMR4_CTC_MODE)
+	if (TMR4_CTC_ONCE == Glob_u8TMR4_MODE || TMR4_COUNTER_ONCE == Glob_u8TMR4_MODE)
 	{
 		CLR_BYTE(TIMSK4);	/*Disabling the timer interrupts so that is does not keep calling the ISR indefinitely*/
 		TCCR4B &= 0xF8;		/*Turning Timer off by removing pre-scaler*/
