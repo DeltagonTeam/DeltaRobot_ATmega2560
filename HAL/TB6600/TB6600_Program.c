@@ -88,25 +88,25 @@ ErrorStatus TB6600_Move(u8 incpy_u8MotorNumber, u8 incpy_u8Dir, u8 incpy_u8Speed
 	case TB_MOTOR0:
 		Loc_ErrorStatusReturn = DIO_WritePin(TB0_DIR_PORT, TB0_DIR_PIN, incpy_u8Dir);
 		RETURN_IF_ERROR(Loc_ErrorStatusReturn);
-		Loc_ErrorStatusReturn = TMR1_PWMStart(incpy_u8Speed,inptr_vdISR);
+		Loc_ErrorStatusReturn = TMR1_PWMStart(incpy_u8Speed, TRUE, inptr_vdISR);
 		break;
 
 	case TB_MOTOR1:
 		Loc_ErrorStatusReturn = DIO_WritePin(TB1_DIR_PORT, TB1_DIR_PIN, incpy_u8Dir);
 		RETURN_IF_ERROR(Loc_ErrorStatusReturn);
-		Loc_ErrorStatusReturn = TMR4_PWMStart(incpy_u8Speed,inptr_vdISR);
+		Loc_ErrorStatusReturn = TMR4_PWMStart(incpy_u8Speed, TRUE, inptr_vdISR);
 		break;
 
 	case TB_MOTOR2:
 		Loc_ErrorStatusReturn = DIO_WritePin(TB2_DIR_PORT, TB2_DIR_PIN, incpy_u8Dir);
 		RETURN_IF_ERROR(Loc_ErrorStatusReturn);
-		Loc_ErrorStatusReturn = TMR5_PWMStart(incpy_u8Speed,inptr_vdISR);
+		Loc_ErrorStatusReturn = TMR5_PWMStart(incpy_u8Speed, TRUE, inptr_vdISR);
 		break;
 
 	case TB_MOTOR3:
 		Loc_ErrorStatusReturn = DIO_WritePin(TB3_DIR_PORT, TB3_DIR_PIN, incpy_u8Dir);
 		RETURN_IF_ERROR(Loc_ErrorStatusReturn);
-		Loc_ErrorStatusReturn = TMR3_PWMStart(incpy_u8Speed,inptr_vdISR);
+		Loc_ErrorStatusReturn = TMR3_PWMStart(incpy_u8Speed, TRUE, inptr_vdISR);
 		break;
 
 	default:	return INVALID_PARAMETERS;
