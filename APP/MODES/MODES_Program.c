@@ -55,7 +55,7 @@ ErrorStatus MODE_CalibrateMode(void)
         /*Do nothing while user is calibrating*/
     }
 
-    return PB_Deinit(PB_CALIBRATE);
+    return PB_Disable(PB_CALIBRATE);
 }
 
 ErrorStatus MODE_ManualMode(void)

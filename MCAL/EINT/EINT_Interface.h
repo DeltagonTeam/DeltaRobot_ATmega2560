@@ -45,7 +45,7 @@
  * Input1 	: incpy_u8INTnumber		: Choose which Interrupt to enable		: EINT0-EINT7
  * Input2 	: incpy_u8INTmode		: Choosing the mode of operation		: EINT_Low, EINT_AnyChange, EINT_FallEdge, EINT_RiseEdge
  * Input3 	: incpy_u8PullupEnable	: Enable or Disable Pull up resistor	: EINT_PULLUP, EINT_NOPULLUP
- * Input4 	: inptr_vdISR			: Pointer to the required ISR function	:
+ * Input4 	: inptr_vdISR			: Pointer to the required ISR function
  * Return 	:						: Error Status of function
  */
 ErrorStatus EINT_Enable(u8 incpy_u8INTnumber, u8 incpy_u8INTmode, u8 incpy_u8PullupEnable, void (*inptr_vdISR) (void));
