@@ -64,7 +64,7 @@
 /*Public Functions Declarations*/
 /* 
  * Function	: DIO_PortInit		: Set the Direction of all pins on one of the 4 Ports
- * Input1 	: incpy_u8Port		: Port to Set			: DIO_PORTA-DIO_PORTL
+ * Input1 	: incpy_u8Port		: Port to Set			: DIO_PORTA - DIO_PORTL
  * Input2 	: incpy_u8Dir		: Direction to set to	: 0-255, DIO_PORT_INPUT, DIO_PORT_OUTPUT
  * Input3 	: incpy_u8InitState	: Initial state of port	: 0-255, DIO_PORT_HIGH, DIO_PORT_LOW, DIO_PORT_PULLUP, DIO_PORT_NOPULLUP
  * Return 	:					: Error Status of function
@@ -73,7 +73,7 @@ ErrorStatus DIO_PortInit (u8 incpy_u8Port, u8 incpy_u8Dir, u8 incpy_u8InitState)
 
 /*
  * Function	: DIO_WritePort	: Write an 8-bit Value on one of the 4 Ports
- * Input1 	: incpy_u8Port	: Port to Write on	: DIO_PORTA-DIO_PORTL
+ * Input1 	: incpy_u8Port	: Port to Write on	: DIO_PORTA - DIO_PORTL
  * Input2 	: incpy_u8Val	: Value to write	: 0-255, DIO_PORT_HIGH, DIO_PORT_LOW
  * Return 	:				: Error Status of function
  */
@@ -81,7 +81,7 @@ ErrorStatus DIO_WritePort (u8 incpy_u8Port, u8 incpy_u8Val);
 
 /*
  * Function	: DIO_ReadPort	: Read the Value from one of the 4 Ports
- * Input1 	: incpy_u8Port	: Port to read from				: DIO_PORTA-DIO_PORTL
+ * Input1 	: incpy_u8Port	: Port to read from				: DIO_PORTA - DIO_PORTL
  * Output1	: outptr_u8Val	: Value inserted on the Port x	: 0-255
  * Return 	:				: Error Status of function
  */
@@ -89,7 +89,7 @@ ErrorStatus DIO_ReadPort (u8 incpy_u8Port, volatile u8* outptr_u8Val);
 
 /*
  * Function	: DIO_PinInit		: Set the Direction of one of the 32 Pins (Pin xn)
- * Input1 	: incpy_u8Port		: Port x				: DIO_PORTA-DIO_PORTL
+ * Input1 	: incpy_u8Port		: Port x				: DIO_PORTA - DIO_PORTL
  * Input2 	: incpy_u8Pin		: Pin n					: DIO_PIN0-DIO_PIN7
  * Input3	: incpy_u8Dir 		: Direction to set to	: DIO_PIN_INPUT, DIO_PIN_OUTPUT
  * Input4 	: incpy_u8InitState	: Initial state of pin	: DIO_PIN_HIGH, DIO_PIN_LOW, DIO_PIN_PULLUP, DIO_PIN_NOPULLUP
@@ -99,7 +99,7 @@ ErrorStatus DIO_PinInit (u8 incpy_u8Port, u8 incpy_u8Pin, u8 incpy_u8Dir, u8 inc
 
 /*
  * Function	: DIO_WritePin	: Write a 1-bit Value on one of the 32 Pins (Pin xn)
- * Input1 	: incpy_u8Port	: Port x		: DIO_PORTA-DIO_PORTL
+ * Input1 	: incpy_u8Port	: Port x		: DIO_PORTA - DIO_PORTL
  * Input2 	: incpy_u8Pin	: Pin n			: DIO_PIN0-DIO_PIN7
  * Input3	: incpy_u8Val 	: Value to write: DIO_PIN_LOW, DIO_PIN_HIGH
  * Return 	:				: Error Status of function
@@ -108,7 +108,7 @@ ErrorStatus DIO_WritePin (u8 incpy_u8Port, u8 incpy_u8Pin, u8 incpy_u8Val);
 
 /*
  * Function	: DIO_ReadPin	: Get the Value on one of the 32 Pins (Pin xn)
- * Input1 	: incpy_u8Port	: Port x				: DIO_PORTA-DIO_PORTL
+ * Input1 	: incpy_u8Port	: Port x				: DIO_PORTA - DIO_PORTL
  * Input2 	: incpy_u8Pin	: Pin n					: DIO_PIN0-DIO_PIN7
  * Output1	: outptr_u8Val	: Value inserted on Pin	: DIO_PIN_HIGH, DIO_PIN_LOW
  * Return 	:				: Error Status of function
