@@ -86,10 +86,10 @@ ErrorStatus TMR5_Counter(u8 incpy_u8CounterMode, u16 incpy_u16Count ,void (*inpt
 ErrorStatus TMR5_PWMStart(u16 incpy_u8Frequency, void (*inptr_vdISR) (void));
 
 /*
- * Function	: TMR5_Deinit	: De-initialize Timer 5
+ * Function	: TMR5_Stop	    : De-initialize Timer 5
  * Return 	:				: Error Status of function
  */
-ErrorStatus TMR5_Deinit(void);
+ErrorStatus TMR5_Stop(void);
 /*__________________________________________________________________________________________________________________________________________*/
 
 

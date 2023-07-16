@@ -303,10 +303,10 @@ ErrorStatus TMR4_PWMStart(u16 incpy_u8Frequency, void (*inptr_vdISR) (void))
 }
 
 /*
- * Function	: TMR4_Deinit	: De-initialize Timer 4
+ * Function	: TMR4_Stop		: De-initialize Timer 4
  * Return 	:				: Error Status of function
  */
-ErrorStatus TMR4_Deinit(void)
+ErrorStatus TMR4_Stop(void)
 {
 	CLR_BYTE(TIMSK4);	/*Disabling the timer interrupts*/
 	TCCR4B &= 0xF8;		/*Turning Timer off by removing pre-scaler*/

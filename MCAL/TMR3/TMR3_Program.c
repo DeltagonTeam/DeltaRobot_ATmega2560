@@ -303,10 +303,10 @@ ErrorStatus TMR3_PWMStart(u16 incpy_u8Frequency, void (*inptr_vdISR) (void))
 }
 
 /*
- * Function	: TMR3_Deinit	: De-initialize Timer 3
+ * Function	: TMR3_Stop		: De-initialize Timer 3
  * Return 	:				: Error Status of function
  */
-ErrorStatus TMR3_Deinit(void)
+ErrorStatus TMR3_Stop(void)
 {
 	CLR_BYTE(TIMSK3);	/*Disabling the timer interrupts*/
 	TCCR3B &= 0xF8;		/*Turning Timer off by removing pre-scaler*/

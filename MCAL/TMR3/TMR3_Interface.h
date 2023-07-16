@@ -86,10 +86,10 @@ ErrorStatus TMR3_Counter(u8 incpy_u8CounterMode, u16 incpy_u16Count ,void (*inpt
 ErrorStatus TMR3_PWMStart(u16 incpy_u8Frequency, void (*inptr_vdISR) (void));
 
 /*
- * Function	: TMR3_Deinit	: De-initialize Timer 3
+ * Function	: TMR3_Stop	    : De-initialize Timer 3
  * Return 	:				: Error Status of function
  */
-ErrorStatus TMR3_Deinit(void);
+ErrorStatus TMR3_Stop(void);
 /*__________________________________________________________________________________________________________________________________________*/
 
 

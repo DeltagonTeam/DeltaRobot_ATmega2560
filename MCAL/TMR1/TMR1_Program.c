@@ -302,10 +302,10 @@ ErrorStatus TMR1_PWMStart(u16 incpy_u8Frequency, void (*inptr_vdISR) (void))
 }
 
 /*
- * Function	: TMR1_Deinit	: De-initialize Timer 1
+ * Function	: TMR1_Stop		: De-initialize Timer 1
  * Return 	:				: Error Status of function
  */
-ErrorStatus TMR1_Deinit(void)
+ErrorStatus TMR1_Stop(void)
 {
 	CLR_BYTE(TIMSK1);	/*Disabling the timer interrupts*/
 	TCCR1B &= 0xF8;		/*Turning Timer off by removing pre-scaler*/

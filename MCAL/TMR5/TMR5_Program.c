@@ -303,10 +303,10 @@ ErrorStatus TMR5_PWMStart(u16 incpy_u8Frequency, void (*inptr_vdISR) (void))
 }
 
 /*
- * Function	: TMR5_Deinit	: De-initialize Timer 5
+ * Function	: TMR5_Stop		: De-initialize Timer 5
  * Return 	:				: Error Status of function
  */
-ErrorStatus TMR5_Deinit(void)
+ErrorStatus TMR5_Stop(void)
 {
 	CLR_BYTE(TIMSK5);	/*Disabling the timer interrupts*/
 	TCCR5B &= 0xF8;		/*Turning Timer off by removing pre-scaler*/

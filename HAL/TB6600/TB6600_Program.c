@@ -125,19 +125,19 @@ ErrorStatus TB6600_Stop(u8 incpy_u8MotorNumber)
 	switch (incpy_u8MotorNumber)
 	{
 	case TB_MOTOR0:
-		return TMR1_Deinit();
+		return TMR1_Stop();
 		break;
 
 	case TB_MOTOR1:
-		return TMR4_Deinit();
+		return TMR4_Stop();
 		break;
 
 	case TB_MOTOR2:
-		return TMR5_Deinit();
+		return TMR5_Stop();
 		break;
 
 	case TB_MOTOR3:
-		return TMR3_Deinit();
+		return TMR3_Stop();
 		break;
 
 	default:	return INVALID_PARAMETERS;
