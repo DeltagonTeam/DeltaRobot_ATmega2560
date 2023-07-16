@@ -62,7 +62,7 @@ ErrorStatus TMR3_Init(u8 incpy_u8Mode, u8 incpy_u8Prescaler)
 		 * CS32:30 	(bits 2:0) for pre-scaler which will be selected later.
 		 */
 		TCCR3B = 0b00010000;
-		DIO_PinInit(DIO_PORTB, DIO_PIN6, DIO_PIN_OUTPUT, DIO_PIN_LOW);
+		DIO_PinInit(DIO_PORTE, DIO_PIN4, DIO_PIN_OUTPUT, DIO_PIN_LOW);
 		break;
 
 	case TMR3_COUNTER_ONCE:
