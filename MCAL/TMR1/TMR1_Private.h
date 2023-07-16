@@ -32,16 +32,13 @@
 
 /*Private Macros Definitions*/
 #define __INTR_ATTRS	used,externally_visible
-
-	/*Defining Bits*/
-#define OCIE1A	(1u)
 /*__________________________________________________________________________________________________________________________________________*/
 
 
 /*Global Variables Definitions*/
 static void (* Globptr_vdTMR1_CTC_ISR) (void) = NULL;
 static u8 Glob_u8TMR1_Prescaler = 0;
-static u8 Glob_u8TMR1_CTC_MODE = 0;
+static u8 Glob_u8TMR1_MODE = 0;
 /*__________________________________________________________________________________________________________________________________________*/
 
 
