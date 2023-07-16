@@ -51,7 +51,6 @@
 /*Private Definitions*/
 #define MATH_FIS_MAGICNUM	(0x5F3759DF)	/* The Magic Number of the fast inverse square root */
 #define MATH_4_PI2			(0.4052847F)	/* 4 /(PI^2)    */
-#define MATH_PI_SQRT2		(2.2214414F)	/* PI / sqrt(2) */
 /*__________________________________________________________________________________________________________________________________________*/
 
 
