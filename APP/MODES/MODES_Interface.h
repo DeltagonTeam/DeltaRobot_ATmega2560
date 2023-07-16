@@ -12,7 +12,6 @@
 #define IDLE_MODE		(0u)
 #define CALIBRATE_MODE 	(1u)
 #define MANUAL_MODE 	(2u)
-#define SQUARE_MODE		(3u)
 /*__________________________________________________________________________________________________________________________________________*/
 
 
@@ -29,8 +28,6 @@ ErrorStatus MODE_IdleMode(void);
 ErrorStatus MODE_CalibrateMode(void);
 
 ErrorStatus MODE_ManualMode(void);
-
-ErrorStatus MODE_SquareMode(void);
 /*__________________________________________________________________________________________________________________________________________*/
 
 

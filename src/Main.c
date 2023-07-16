@@ -54,11 +54,6 @@ int main(void)
 			ERRORU_IF_ERROR(Loc_ErrorStatusReturn);
 			break;
 
-		case SQUARE_MODE:
-			Loc_ErrorStatusReturn = MODE_SquareMode();
-			ERRORU_IF_ERROR(Loc_ErrorStatusReturn);
-			break;
-
 		default:
 			ERRORu(INVALID_MODE);
 			break;
