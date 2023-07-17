@@ -328,8 +328,8 @@ ErrorStatus TMR3_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8RunCallBackFunc, voi
  */
 ErrorStatus TMR3_Stop(void)
 {
-	CLR_BYTE(TIMSK3);	/*Disabling the timer interrupts*/
 	TCCR3B &= 0xF8;		/*Turning Timer off by removing pre-scaler*/
+	CLR_BYTE(TIMSK3);	/*Disabling the timer interrupts*/
 	return NO_ERROR;
 }
 /*__________________________________________________________________________________________________________________________________________*/
