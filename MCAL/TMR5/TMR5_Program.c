@@ -323,7 +323,7 @@ ErrorStatus TMR5_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8RunCallBackFunc, voi
 }
 
 /*
- * Function	: TMR5_Stop		: De-initialize Timer 5
+ * Function	: TMR5_Stop		: Stop Timer 5
  * Return 	:				: Error Status of function
  */
 ErrorStatus TMR5_Stop(void)

@@ -78,7 +78,7 @@ ErrorStatus TMR4_Counter(u16 incpy_u16Count, void (*inptr_vdISR) (void));
 ErrorStatus TMR4_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8RunCallBackFunc, void (*inptr_vdISR) (void));
 
 /*
- * Function	: TMR4_Stop	    : De-initialize Timer 4
+ * Function	: TMR4_Stop	    : Stop Timer 4
  * Return 	:				: Error Status of function
  */
 ErrorStatus TMR4_Stop(void);
