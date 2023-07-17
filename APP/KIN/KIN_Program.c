@@ -60,7 +60,7 @@ static ErrorStatus KIN_CalcTheta(f32 incpy_f32E, f32 incpy_f32F, f32 incpy_f32G,
  * Output1	    : outptr_f32Coords  : an array with the coordinates of the choosen point of intersection
  * Return       :                   : Error Status of function
  */
-static ErrorStatus KIN_Trilaterate(f32 *inptr_f32A1, f32 *inptr_f32A2, f32 *inptr_f32A3, f32 *inptr_f32Radii, f32 *outptr_f32Coords)
+static ErrorStatus KIN_Trilaterate(const f32* inptr_f32A1, const f32* inptr_f32A2, const f32* inptr_f32A3, const f32* inptr_f32Radii, f32* outptr_f32Coords)
 {
     /*Unpacking Inputs*/
     f32 Loc_f32X1 = inptr_f32A1[0];
@@ -158,7 +158,7 @@ ErrorStatus KIN_Init(void)
  * Output1 	: outptr_f32Coords	: an array with the coordinates of origin of the platform [x,y,z]
  * Return 	:					: Error Status of function
  */
-ErrorStatus KIN_GetCoords(f32 *inptr_f32Thetas, f32 *outptr_f32Coords)
+ErrorStatus KIN_GetCoords(const f32* inptr_f32Thetas, f32* outptr_f32Coords)
 {
     /*Unpacking Inputs*/
     f32 Loc_f32Th1 = inptr_f32Thetas[0];
@@ -195,7 +195,7 @@ ErrorStatus KIN_GetCoords(f32 *inptr_f32Thetas, f32 *outptr_f32Coords)
  * Output1	: outptr_f32Thetas	: an array with the anglular positions of the driver links [Th1,Th2,Th3]
  * Return 	:					: Error Status of function
  */
-ErrorStatus KIN_GetThetas(f32* inptr_f32Coords, f32* outptr_f32Thetas)
+ErrorStatus KIN_GetThetas(const f32* inptr_f32Coords, f32* outptr_f32Thetas)
 {
     /*Unpacking Inputs*/
 	f32 Loc_f32x = inptr_f32Coords[0];
@@ -244,7 +244,7 @@ ErrorStatus KIN_GetThetas(f32* inptr_f32Coords, f32* outptr_f32Thetas)
  * Output1	: outptr_f32ThetaDots 	    : an array with the anglular velocities of the driver links [Thd1,Thd2,Thd3]
  * Return 	:							: Error Status of function
  */
-ErrorStatus KIN_GetThetaDots(f32* inptr_f32Coords, f32* inptr_f32Velocities, f32* inptr_f32Thetas, f32* outptr_f32ThetaDots)
+ErrorStatus KIN_GetThetaDots(const f32* inptr_f32Coords, const f32* inptr_f32Velocities, const f32* inptr_f32Thetas, f32* outptr_f32ThetaDots)
 {
     /*Unpacking Inputs*/
    	f32 Loc_f32x = inptr_f32Coords[0];

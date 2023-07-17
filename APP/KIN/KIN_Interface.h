@@ -28,7 +28,7 @@ ErrorStatus KIN_Init(void);
  * Output1 	: outptr_f32Coords	: an array with the coordinates of origin of the platform [x,y,z]
  * Return 	:					: Error Status of function
  */
-ErrorStatus KIN_GetCoords(f32* inptr_f32Thetas, f32* outptr_f32Coords);
+ErrorStatus KIN_GetCoords(const f32* inptr_f32Thetas, f32* outptr_f32Coords);
 
 /*
  * Function	: KIN_GetThetas		: a public function that calculates the anglur positions of the driver links
@@ -36,7 +36,7 @@ ErrorStatus KIN_GetCoords(f32* inptr_f32Thetas, f32* outptr_f32Coords);
  * Output1	: outptr_f32Thetas	: an array with the anglular positions of the driver links [Th1,Th2,Th3]
  * Return 	:					: Error Status of function
  */
-ErrorStatus KIN_GetThetas(f32* inptr_f32Coords, f32* outptr_f32Thetas);
+ErrorStatus KIN_GetThetas(const f32* inptr_f32Coords, f32* outptr_f32Thetas);
 
 /*
  * Function	: KIN_GetThetaDots			: a public function that calculates the anglur velosities of the driver links
@@ -46,7 +46,7 @@ ErrorStatus KIN_GetThetas(f32* inptr_f32Coords, f32* outptr_f32Thetas);
  * Output1	: outptr_f32ThetaDots 	    : an array with the anglular velocities of the driver links [Thd1,Thd2,Thd3]
  * Return 	:							: Error Status of function
  */
-ErrorStatus KIN_GetThetaDots(f32* inptr_f32Coords, f32* inptr_f32Velocities, f32* inptr_f32Thetas, f32* outptr_f32ThetaDots);
+ErrorStatus KIN_GetThetaDots(const f32* inptr_f32Coords, const f32* inptr_f32Velocities, const f32* inptr_f32Thetas, f32* outptr_f32ThetaDots);
 /*__________________________________________________________________________________________________________________________________________*/
 
 
