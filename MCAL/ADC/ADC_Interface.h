@@ -43,7 +43,7 @@
 /* 
  * Function	: ADC_Init					: Initializes the ADC
  * Input1 	: incpy_u8Channel			: The channel to be initialized
- * Return 	: Loc_ErrorStatusReturn		: Error Status of function
+ * Return 	: ErrorStatus	    		: Error Status of function
  */
 ErrorStatus ADC_Init(u8 incpy_u8Channel);
 
@@ -51,7 +51,7 @@ ErrorStatus ADC_Init(u8 incpy_u8Channel);
  * Function	: ADC_ReadChannel		: Reads an analog input from the chosen channel
  * Input1 	: incpy_u8Channel		: Channel to read			: ADC_CHANNEL0-ADC_CHANNEL15
  * Output1	: outptr_u16ADCVal		: Value of the ADC reading	: 0-ADC_MAX_VALUE
- * Return 	: Loc_ErrorStatusReturn	: Error Status of function
+ * Return 	: ErrorStatus	    	: Error Status of function
  */
 ErrorStatus ADC_ReadChannel(u8 incpy_u8Channel, u16* outptr_u16ADCVal);
 

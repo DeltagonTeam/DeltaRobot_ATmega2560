@@ -7,9 +7,9 @@
 
 #include "I2C_Private.h"
 
-/* Function	: I2C_Init      	: Function Purpose
- * Input1 	: incpy_f32InExample: Input Description		: Options
- * Return 	: 					: Return Description	: Options
+/* Function	: I2C_Init      		: Function Purpose
+ * Input1 	: incpy_f32InExample	: Input Description		: Options
+ * Return 	: ErrorStatus			: Return Description	: Options
  */
 ErrorStatus I2C_Init()
 {
@@ -19,9 +19,9 @@ ErrorStatus I2C_Init()
 	return NO_ERROR;
 }
 /***********************************************************************************************************
- * Function	: I2C_Start      	: Function Purpose
- * Input1 	: incpy_f32InExample: Input Description		: Options
- * Return 	: 					: Return Description	: Options
+ * Function	: I2C_Start      		: Function Purpose
+ * Input1 	: incpy_f32InExample	: Input Description		: Options
+ * Return 	: ErrorStatus			: Return Description	: Options
  */
 ErrorStatus I2C_Start()
 {
@@ -34,9 +34,9 @@ ErrorStatus I2C_Start()
 	return NO_ERROR;
 }
 /***********************************************************************************************************
- * Function	: I2C_RepeatedStart : Function Purpose
- * Input1 	: incpy_f32InExample: Input Description		: Options
- * Return 	: 					: Return Description	: Options
+ * Function	: I2C_RepeatedStart 	: Function Purpose
+ * Input1 	: incpy_f32InExample	: Input Description		: Options
+ * Return 	: ErrorStatus			: Return Description	: Options
  */
 ErrorStatus I2C_RepeatedStart()
 {
@@ -49,9 +49,9 @@ ErrorStatus I2C_RepeatedStart()
 	return NO_ERROR;
 }
 /***********************************************************************************************************
- * Function	: I2C_Restart      	: Function Purpose
- * Input1 	: incpy_f32InExample: Input Description		: Options
- * Return 	: 					: Return Description	: Options
+ * Function	: I2C_Restart      		: Function Purpose
+ * Input1 	: incpy_f32InExample	: Input Description		: Options
+ * Return 	: ErrorStatus			: Return Description	: Options
  */
 ErrorStatus I2C_Restart()
 {
@@ -64,9 +64,9 @@ ErrorStatus I2C_Restart()
 	return NO_ERROR;
 }
 /***********************************************************************************************************
- * Function	: I2C_SendTo      	: Function Purpose
- * Input1 	: incpy_f32InExample: Input Description		: Options
- * Return 	: 					: Return Description	: Options
+ * Function	: I2C_SendTo      		: Function Purpose
+ * Input1 	: incpy_f32InExample	: Input Description		: Options
+ * Return 	: ErrorStatus			: Return Description	: Options
  */
 ErrorStatus I2C_SendTo(u8 incpy_u8SlaveAddress)
 {
@@ -86,9 +86,9 @@ ErrorStatus I2C_SendTo(u8 incpy_u8SlaveAddress)
 	return NO_ERROR;
 }
 /***********************************************************************************************************
- * Function	: I2C_SendData     	: Function Purpose
- * Input1 	: incpy_f32InExample: Input Description		: Options
- * Return 	: 					: Return Description	: Options
+ * Function	: I2C_SendData     		: Function Purpose
+ * Input1 	: incpy_f32InExample	: Input Description		: Options
+ * Return 	: ErrorStatus			: Return Description	: Options
  */
 ErrorStatus I2C_SendData(u8 incpy_u8Data)
 {
@@ -110,9 +110,9 @@ ErrorStatus I2C_SendData(u8 incpy_u8Data)
 
 
 /***********************************************************************************************************
- * Function	: I2C_ReciveFrom   	: Function Purpose
- * Input1 	: incpy_f32InExample: Input Description		: Options
- * Return 	: 					: Return Description	: Options
+ * Function	: I2C_ReciveFrom   		: Function Purpose
+ * Input1 	: incpy_f32InExample	: Input Description		: Options
+ * Return 	: ErrorStatus			: Return Description	: Options
  */
 ErrorStatus I2C_ReciveFrom(u8 incpy_u8SlaveAddress)
 {
@@ -133,9 +133,9 @@ ErrorStatus I2C_ReciveFrom(u8 incpy_u8SlaveAddress)
 	
 }
 /***********************************************************************************************************
- * Function	: I2C_RecviveData  	: Function Purpose
- * Input1 	: incpy_f32InExample: Input Description		: Options
- * Return 	: 					: Return Description	: Options
+ * Function	: I2C_RecviveData  		: Function Purpose
+ * Input1 	: incpy_f32InExample	: Input Description		: Options
+ * Return 	: ErrorStatus			: Return Description	: Options
  */
 ErrorStatus I2C_RecviveData(u8 incpy_Send_ACK, u8* outptr_u8Data)
 {
@@ -156,9 +156,9 @@ ErrorStatus I2C_RecviveData(u8 incpy_Send_ACK, u8* outptr_u8Data)
 	return NO_ERROR;
 }
 /***********************************************************************************************************
- * Function	: I2C_Stop      	: Function Purpose
- * Input1 	: incpy_f32InExample: Input Description		: Options
- * Return 	: 					: Return Description	: Options
+ * Function	: I2C_Stop      		: Function Purpose
+ * Input1 	: incpy_f32InExample	: Input Description		: Options
+ * Return 	: ErrorStatus			: Return Description	: Options
  */
 ErrorStatus I2C_Stop()
 {

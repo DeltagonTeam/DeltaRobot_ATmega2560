@@ -22,18 +22,18 @@
  * Input2 	: incpy_f32F		: precalculated expression that is different for each driver link
  * Input3 	: incpy_f32G		: precalculated expression that is different for each driver link
  * Output1	: outptr_f32Theta	: Value inserted on the Port x	: 0-255
- * Return 	:					: Error Status of function
+ * Return 	: ErrorStatus		: Error Status of function
  */
 static ErrorStatus KIN_CalcTheta(f32 incpy_f32E, f32 incpy_f32F, f32 incpy_f32G, f32* outptr_f32Theta);
 
 /*
- * Function	    : KIN_Trilaterate   : a private function that calculates an intersection point of three spheres
- * Input1       : inptr_f32A1       : an array with the coordinates of the center of sphere 1
- * Input2       : inptr_f32A2       : an array with the coordinates of the center of sphere 2
- * Input3       : inptr_f32A3       : an array with the coordinates of the center of sphere 3
- * Input4       : inptr_f32Radii    : an array with the radii of the three spheres
- * Output1	    : outptr_f32Coords  : an array with the coordinates of the choosen point of intersection
- * Return       :                   : Error Status of function
+ * Function : KIN_Trilaterate   : a private function that calculates an intersection point of three spheres
+ * Input1   : inptr_f32A1       : an array with the coordinates of the center of sphere 1
+ * Input2   : inptr_f32A2       : an array with the coordinates of the center of sphere 2
+ * Input3   : inptr_f32A3       : an array with the coordinates of the center of sphere 3
+ * Input4   : inptr_f32Radii    : an array with the radii of the three spheres
+ * Output1  : outptr_f32Coords  : an array with the coordinates of the choosen point of intersection
+ * Return 	: ErrorStatus	    : Error Status of function
  */
 static ErrorStatus KIN_Trilaterate(const f32* inptr_f32A1, const f32* inptr_f32A2, const f32* inptr_f32A3, const f32* inptr_f32Radii, f32* outptr_f32Coords);
 /*__________________________________________________________________________________________________________________________________________*/

@@ -15,7 +15,7 @@
 /*
  * Function	: MATH_sinHelper		: Calculates the error sin function to increase the accuracy of the sin function
  * Input1 	: incpy_f32ThetaError	: Theta of the error function	: -maximum of f32 to + maximum of f32
- * Return 	: 						: the sine of the input angle	: -1 to 1
+ * Return 	: ErrorStatus			: the sine of the input angle	: -1 to 1
  */
 #if (DO_INCLUDE == MATH_INCLUDE_sin || DO_INCLUDE == MATH_INCLUDE_atan || DO_INCLUDE == MATH_INCLUDE_atan2) && (DO_INCLUDE == MATH_IMPROVE_sin)
 	static f32 MATH_sinHelper(f32 incpy_f32ThetaError)
@@ -46,7 +46,7 @@
 /* 
  * Function	: MATH_sin			: Calculates the sine of an Angle in radians
  * Input1 	: incpy_f32Theta	: Input angle in radians		: -maximum of f32 to + maximum of f32
- * Return 	: 					: the sine of the input angle	: -1 to 1
+ * Return 	: ErrorStatus		: the sine of the input angle	: -1 to 1
  */
 #if DO_INCLUDE == MATH_INCLUDE_sin || DO_INCLUDE == MATH_INCLUDE_atan || DO_INCLUDE == MATH_INCLUDE_atan2
 	f32 MATH_sin(f32 incpy_f32Theta)
@@ -84,7 +84,7 @@
 /*
  * Function	: MATH_invsqrt	: Calculates the inverse square root of a positive number based on the Fast Inverse Square Root algorithm
  * Input1 	: incpy_f32Num	: Input number								: 0 to + maximum of f32 except (negative values have to be checked by the user)
- * Return 	: 				: the inverse of the square root of the number
+ * Return 	: ErrorStatus	: the inverse of the square root of the number
  */
 #if DO_INCLUDE == MATH_INCLUDE_invsqrt || DO_INCLUDE == MATH_INCLUDE_atan || DO_INCLUDE == MATH_INCLUDE_atan2
 	f32 MATH_invsqrt(f32 incpy_f32Num)
@@ -105,7 +105,7 @@
 /*
  * Function	: MATH_atan 	: Calculates the inverse tangent of a positive number with a -pi/2 to pi/2 range
  * Input1 	: incpy_f32Num	: Input Number
- * Return 	: 				: the inverse tangent of the Number
+ * Return 	: ErrorStatus	: the inverse tangent of the Number
  */
 #if DO_INCLUDE == MATH_INCLUDE_atan
 	f32 MATH_atan(f32 incpy_f32Num)
@@ -122,7 +122,7 @@
  * Function	: MATH_atan2 	: Calculates the inverse tan of a positive number with a -pi to pi range
  * Input1 	: incpy_f32Y	: Numerator of Input Number
  * Input2	: incpy_f32X	: Denominator of Input Number
- * Return 	: 				: the inverse tan of the Number
+ * Return 	: ErrorStatus	: the inverse tan of the Number
  */
 #if DO_INCLUDE == MATH_INCLUDE_atan2
 	f32 MATH_atan2(f32 incpy_f32Y, f32 incpy_f32X)

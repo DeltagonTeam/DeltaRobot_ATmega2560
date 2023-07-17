@@ -17,8 +17,8 @@
 
 /*Public Functions Declaration*/
 /*
- * Function	: KIN_Init      : a public function that calculates constants for the Kinematics
- * Return 	:				: Error Status of function
+ * Function	: KIN_Init          : a public function that calculates constants for the Kinematics
+ * Return 	: ErrorStatus	    : Error Status of function
  */
 ErrorStatus KIN_Init(void);
 
@@ -26,7 +26,7 @@ ErrorStatus KIN_Init(void);
  * Function	: KIN_GetCoords		: a public function that calculates the coordinates of origin of the platform
  * Input1	: inptr_f32Thetas	: an array with the anglular positions of the driver links [Th1,Th2,Th3]
  * Output1 	: outptr_f32Coords	: an array with the coordinates of origin of the platform [x,y,z]
- * Return 	:					: Error Status of function
+ * Return 	: ErrorStatus		: Error Status of function
  */
 ErrorStatus KIN_GetCoords(const f32* inptr_f32Thetas, f32* outptr_f32Coords);
 
@@ -34,7 +34,7 @@ ErrorStatus KIN_GetCoords(const f32* inptr_f32Thetas, f32* outptr_f32Coords);
  * Function	: KIN_GetThetas		: a public function that calculates the anglur positions of the driver links
  * Input1 	: inptr_f32Coords	: an array with the coordinates of origin of the platform [x,y,z]
  * Output1	: outptr_f32Thetas	: an array with the anglular positions of the driver links [Th1,Th2,Th3]
- * Return 	:					: Error Status of function
+ * Return 	: ErrorStatus		: Error Status of function
  */
 ErrorStatus KIN_GetThetas(const f32* inptr_f32Coords, f32* outptr_f32Thetas);
 
@@ -44,7 +44,7 @@ ErrorStatus KIN_GetThetas(const f32* inptr_f32Coords, f32* outptr_f32Thetas);
  * Input2   : inptr_f32Velocities       : an array with the velocity components of the origin of the platform [xd,yd,zd]
  * Input3   : inptr_f32Thetas           : an array with the anglular positions of the driver links [Th1,Th2,Th3]
  * Output1	: outptr_f32ThetaDots 	    : an array with the anglular velocities of the driver links [Thd1,Thd2,Thd3]
- * Return 	:							: Error Status of function
+ * Return 	: ErrorStatus				: Error Status of function
  */
 ErrorStatus KIN_GetThetaDots(const f32* inptr_f32Coords, const f32* inptr_f32Velocities, const f32* inptr_f32Thetas, f32* outptr_f32ThetaDots);
 /*__________________________________________________________________________________________________________________________________________*/

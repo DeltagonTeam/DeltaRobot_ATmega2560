@@ -12,9 +12,9 @@
 
 /*Public Functions Definitions*/
 /* 
- * Function	: POT_Init		: Initializes the Potentiometer
- * Input1 	: incpy_u8Pot	: the Potentiometer to be read initialized
- * Return 	: 				: Error Status of function
+ * Function	: POT_Init			: Initializes the Potentiometer
+ * Input1 	: incpy_u8Pot		: the Potentiometer to be read initialized
+ * Return 	: ErrorStatus		: Error Status of function
  */
 ErrorStatus POT_Init(u8 incpy_u8Pot)
 {
@@ -25,7 +25,7 @@ ErrorStatus POT_Init(u8 incpy_u8Pot)
  * Function	: POT_Read				: Reads the Potentiometer
  * Input1 	: incpy_u8Pot			: the Potentiometer to be read
  * Output1	: outptr_f32PotAngleRad	: Potentiometer angle in Radians
- * Return 	: 						: Error Status of function
+ * Return 	: ErrorStatus			: Error Status of function
  */
 ErrorStatus POT_Read(u8 incpy_u8Pot, f32* outptr_f32PotAngleRad)
 {

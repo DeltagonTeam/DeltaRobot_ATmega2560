@@ -65,7 +65,7 @@
 /* 
  * Function	: EINT_EnableCheck		: Checks if the given external interrupt is enabled
  * Input1 	: incpy_u8INTnumber		: Choose which Interrupt to check		: EINT0-EINT7
- * Return 	:						: Error Status of function
+ * Return 	: ErrorStatus			: Error Status of function
  */
 ErrorStatus EINT_EnableCheck(u8 incpy_u8INTnumber);
 /*__________________________________________________________________________________________________________________________________________*/

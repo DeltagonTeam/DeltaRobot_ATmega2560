@@ -15,7 +15,7 @@
 /* 
  * Function	: JOY_Init			: Initializes the Joystick
  * Input1 	: incpy_u8JoyNumber	: Joystick number	: JOYSTICK0 - JOYSTICK7
- * Return 	: 					: Error Status of function
+ * Return 	: ErrorStatus		: Error Status of function
  */
 ErrorStatus JOY_Init(u8 incpy_u8JoyNumber)
 {
@@ -80,7 +80,7 @@ ErrorStatus JOY_Init(u8 incpy_u8JoyNumber)
  * Function	: JOY_Read				    : Reads Joy Stick values
  * Input1 	: incpy_u8JoyNumber	        : Joystick number			: JOYSTICK0 - JOYSTICK7
  * Output1	: outptr_JOY_StatusReturn   : Joystick Status (XPercent, YPercent)
- * Return 	: 						    : Error Status of function
+ * Return 	: ErrorStatus				: Error Status of function
  */
 ErrorStatus JOY_Read(u8 incpy_u8JoyNumber, JOY_Status* outptr_JOY_StatusReturn)
 {

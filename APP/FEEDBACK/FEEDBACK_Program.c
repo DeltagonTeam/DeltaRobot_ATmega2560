@@ -13,7 +13,7 @@
 /*Public Functions Definitions*/
 /*
  * Function	: FEEDBACK_Init		: a public function that initializes the potentiometers
- * Return 	:					: Error Status of function
+ * Return 	: ErrorStatus		: Error Status of function
  */
 ErrorStatus FEEDBACK_Init(void)
 {
@@ -32,7 +32,7 @@ ErrorStatus FEEDBACK_Init(void)
 /*
  * Function	: FEEDBACK_ReadCurrentThetas	: a public function that calculates the anglular positions of the driver links
  * Output1	: outptr_f32Thetas	            : an array with the anglular positions of the driver links
- * Return 	:					            : Error Status of function
+ * Return 	: ErrorStatus		            : Error Status of function
  */
 ErrorStatus FEEDBACK_ReadCurrentThetas(f32* outptr_f32Thetas)
 {
@@ -55,7 +55,7 @@ ErrorStatus FEEDBACK_ReadCurrentThetas(f32* outptr_f32Thetas)
 
 /*
  * Function	: FEEDBACK_GetCorrection    	: a public function that calculates the offset of the anglular positions of the driver links
- * Return 	:					            : Error Status of function
+ * Return 	: ErrorStatus		            : Error Status of function
  */
 ErrorStatus FEEDBACK_GetCorrection(void)
 {

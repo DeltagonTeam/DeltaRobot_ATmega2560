@@ -58,7 +58,7 @@
 /* 
  * Function	: MATH_sinHelper		: Calculates the error sin function to increase the accuracy of the sin function
  * Input1 	: incpy_f32ThetaError	: Theta of the error function	: -maximum of f32 to + maximum of f32
- * Return 	: 						: the sine of the input angle	: -1 to 1
+ * Return 	: ErrorStatus			: the sine of the input angle	: -1 to 1
  */
 #if (DO_INCLUDE == MATH_INCLUDE_sin || DO_INCLUDE == MATH_INCLUDE_atan || DO_INCLUDE == MATH_INCLUDE_atan2) && (DO_INCLUDE == MATH_IMPROVE_sin)
 	static f32 MATH_sinHelper(f32 incpy_f32Theta);

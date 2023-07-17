@@ -18,7 +18,7 @@
  * Input2 	: incpy_f32F		: precalculated expression that is different for each driver link
  * Input3 	: incpy_f32G		: precalculated expression that is different for each driver link
  * Output1	: outptr_f32Theta	: Value inserted on the Port x	: 0-255
- * Return 	:					: Error Status of function
+ * Return 	: ErrorStatus		: Error Status of function
  */
 static ErrorStatus KIN_CalcTheta(f32 incpy_f32E, f32 incpy_f32F, f32 incpy_f32G, f32* outptr_f32Theta)
 {
@@ -52,13 +52,13 @@ static ErrorStatus KIN_CalcTheta(f32 incpy_f32E, f32 incpy_f32F, f32 incpy_f32G,
 }
 
 /*
- * Function	    : KIN_Trilaterate   : a private function that calculates an intersection point of three spheres
- * Input1       : inptr_f32A1       : an array with the coordinates of the center of sphere 1
- * Input2       : inptr_f32A2       : an array with the coordinates of the center of sphere 2
- * Input3       : inptr_f32A3       : an array with the coordinates of the center of sphere 3
- * Input4       : inptr_f32Radii    : an array with the radii of the three spheres
- * Output1	    : outptr_f32Coords  : an array with the coordinates of the choosen point of intersection
- * Return       :                   : Error Status of function
+ * Function : KIN_Trilaterate   : a private function that calculates an intersection point of three spheres
+ * Input1   : inptr_f32A1       : an array with the coordinates of the center of sphere 1
+ * Input2   : inptr_f32A2       : an array with the coordinates of the center of sphere 2
+ * Input3   : inptr_f32A3       : an array with the coordinates of the center of sphere 3
+ * Input4   : inptr_f32Radii    : an array with the radii of the three spheres
+ * Output1  : outptr_f32Coords  : an array with the coordinates of the choosen point of intersection
+ * Return 	: ErrorStatus	    : Error Status of function
  */
 static ErrorStatus KIN_Trilaterate(const f32* inptr_f32A1, const f32* inptr_f32A2, const f32* inptr_f32A3, const f32* inptr_f32Radii, f32* outptr_f32Coords)
 {
@@ -126,8 +126,8 @@ static ErrorStatus KIN_Trilaterate(const f32* inptr_f32A1, const f32* inptr_f32A
 
 /*Public Functions Definitions*/
 /*
- * Function	: KIN_Init      : a public function that calculates constants for the Kinematics
- * Return 	:				: Error Status of function
+ * Function	: KIN_Init          : a public function that calculates constants for the Kinematics
+ * Return 	: ErrorStatus	    : Error Status of function
  */
 ErrorStatus KIN_Init(void)
 {
@@ -156,7 +156,7 @@ ErrorStatus KIN_Init(void)
  * Function	: KIN_GetCoords		: a public function that calculates the coordinates of origin of the platform
  * Input1	: inptr_f32Thetas	: an array with the anglular positions of the driver links [Th1,Th2,Th3]
  * Output1 	: outptr_f32Coords	: an array with the coordinates of origin of the platform [x,y,z]
- * Return 	:					: Error Status of function
+ * Return 	: ErrorStatus		: Error Status of function
  */
 ErrorStatus KIN_GetCoords(const f32* inptr_f32Thetas, f32* outptr_f32Coords)
 {
@@ -193,7 +193,7 @@ ErrorStatus KIN_GetCoords(const f32* inptr_f32Thetas, f32* outptr_f32Coords)
  * Function	: KIN_GetThetas		: a public function that calculates the anglur positions of the driver links
  * Input1 	: inptr_f32Coords	: an array with the coordinates of origin of the platform [x,y,z]
  * Output1	: outptr_f32Thetas	: an array with the anglular positions of the driver links [Th1,Th2,Th3]
- * Return 	:					: Error Status of function
+ * Return 	: ErrorStatus		: Error Status of function
  */
 ErrorStatus KIN_GetThetas(const f32* inptr_f32Coords, f32* outptr_f32Thetas)
 {
@@ -242,7 +242,7 @@ ErrorStatus KIN_GetThetas(const f32* inptr_f32Coords, f32* outptr_f32Thetas)
  * Input2   : inptr_f32Velocities       : an array with the velocity components of the origin of the platform [xd,yd,zd]
  * Input3   : inptr_f32Thetas           : an array with the anglular positions of the driver links [Th1,Th2,Th3]
  * Output1	: outptr_f32ThetaDots 	    : an array with the anglular velocities of the driver links [Thd1,Thd2,Thd3]
- * Return 	:							: Error Status of function
+ * Return 	: ErrorStatus				: Error Status of function
  */
 ErrorStatus KIN_GetThetaDots(const f32* inptr_f32Coords, const f32* inptr_f32Velocities, const f32* inptr_f32Thetas, f32* outptr_f32ThetaDots)
 {

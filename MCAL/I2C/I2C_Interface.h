@@ -26,21 +26,21 @@
 /*________________________________________________________________________________________________________________________________________________________*/
 
 /*Public Functions Declarations*/
-/* Function	: I2C_Init      	: Function Purpose
- * Input1 	: incpy_f32InExample: Input Description		: Options
- * Return 	: 					: Return Description	: Options
+/* Function	: I2C_Init      	    : Function Purpose
+ * Input1 	: incpy_f32InExample    : Input Description		: Options
+ * Return 	: ErrorStatus		    : Return Description	: Options
  */
 
 /***********************************************************************************************************
- * Function	: I2C_Send      	: Function Purpose
- * Input1 	: incpy_f32InExample: Input Description		: Options
- * Return 	: 					: Return Description	: Options
+ * Function	: I2C_Send      	    : Function Purpose
+ * Input1 	: incpy_f32InExample    : Input Description		: Options
+ * Return 	: ErrorStatus			: Return Description	: Options
  */
 
 /***********************************************************************************************************
- * Function	: I2C_Recvive      	: Function Purpose
- * Input1 	: incpy_f32InExample: Input Description		: Options
- * Return 	: 					: Return Description	: Options
+ * Function	: I2C_Recvive      	    : Function Purpose
+ * Input1 	: incpy_f32InExample    : Input Description		: Options
+ * Return 	: ErrorStatus			: Return Description	: Options
  */
 
 
