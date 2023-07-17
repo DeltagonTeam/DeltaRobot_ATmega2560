@@ -4,7 +4,7 @@
 
 
 /*Public Functions Definitions*/
-ErrorStatus MODE_InitModeUpdater(void)
+ErrorStatus MODES_InitModeUpdater(void)
 {
 	ErrorStatus Loc_ErrorStatusReturn = NO_ERROR;
 
@@ -13,18 +13,18 @@ ErrorStatus MODE_InitModeUpdater(void)
 
 	Glob_u8Mode = IDLE_MODE;
 
-	return PB_Init(PB_UPDATE, PB_FALLING, PB_PULLUP, &MODE_UpdateMode);
+	return PB_Init(PB_UPDATE, PB_FALLING, PB_PULLUP, &MODES_UpdateMode);
 }
 
-ErrorStatus MODE_IdleMode(void)
+ErrorStatus MODES_IdleMode(void)
 {
 	ErrorStatus Loc_ErrorStatusReturn = NO_ERROR;
 
-	Loc_ErrorStatusReturn = TB6600_Stop(TB_MOTOR0);
+	Loc_ErrorStatusReturn = TB6600_Engage(TB_MOTOR0, TB_DIR_CW, 0, &MODES_UpdateCurrentStep0);
 	RETURN_IF_ERROR(Loc_ErrorStatusReturn);
-	Loc_ErrorStatusReturn = TB6600_Stop(TB_MOTOR1);
+	Loc_ErrorStatusReturn = TB6600_Engage(TB_MOTOR1, TB_DIR_CW, 0, &MODES_UpdateCurrentStep1);
 	RETURN_IF_ERROR(Loc_ErrorStatusReturn);
-	Loc_ErrorStatusReturn = TB6600_Stop(TB_MOTOR2);
+	Loc_ErrorStatusReturn = TB6600_Engage(TB_MOTOR2, TB_DIR_CW, 0, &MODES_UpdateCurrentStep2);
 	RETURN_IF_ERROR(Loc_ErrorStatusReturn);
 
 	while (IDLE_MODE == Glob_u8Mode)
@@ -36,18 +36,18 @@ ErrorStatus MODE_IdleMode(void)
 	return NO_ERROR;
 }
 
-ErrorStatus MODE_CalibrateMode(void)
+ErrorStatus MODES_CalibrateMode(void)
 {
     ErrorStatus Loc_ErrorStatusReturn = NO_ERROR;
 
-    Loc_ErrorStatusReturn = TB6600_Stop(TB_MOTOR0);
+    Loc_ErrorStatusReturn = TB6600_Disengage(TB_MOTOR0);
     RETURN_IF_ERROR(Loc_ErrorStatusReturn);
-    Loc_ErrorStatusReturn = TB6600_Stop(TB_MOTOR1);
+    Loc_ErrorStatusReturn = TB6600_Disengage(TB_MOTOR1);
     RETURN_IF_ERROR(Loc_ErrorStatusReturn);
-    Loc_ErrorStatusReturn = TB6600_Stop(TB_MOTOR2);
+    Loc_ErrorStatusReturn = TB6600_Disengage(TB_MOTOR2);
     RETURN_IF_ERROR(Loc_ErrorStatusReturn);
 
-    Loc_ErrorStatusReturn = PB_Init(PB_CALIBRATE, PB_FALLING, PB_PULLUP, &MODE_Calibrate);
+    Loc_ErrorStatusReturn = PB_Init(PB_CALIBRATE, PB_FALLING, PB_PULLUP, &MODES_Calibrate);
     RETURN_IF_ERROR(Loc_ErrorStatusReturn);
 
     while (CALIBRATE_MODE == Glob_u8Mode)
@@ -58,7 +58,7 @@ ErrorStatus MODE_CalibrateMode(void)
     return PB_Disable(PB_CALIBRATE);
 }
 
-ErrorStatus MODE_ManualMode(void)
+ErrorStatus MODES_ManualMode(void)
 {
 	ErrorStatus Loc_ErrorStatusReturn = NO_ERROR;
 
@@ -81,10 +81,10 @@ ErrorStatus MODE_ManualMode(void)
 	Loc_f32Velocities[1] = (f32)Loc_JoyStatusXY.YPercent*MAX_VELOCITY/100;
 	Loc_f32Velocities[2] = (f32)Loc_JoyStatusZR.YPercent*MAX_VELOCITY/100;
 
-    return MODE_MovePlatform(Loc_f32Velocities);
+    return MODES_MovePlatform(Loc_f32Velocities);
 }
 
-ErrorStatus MODE_GCodeMode(void)
+ErrorStatus MODES_GCodeMode(void)
 {
 	ErrorStatus Loc_ErrorStatusReturn = NO_ERROR;
 
@@ -112,13 +112,13 @@ ErrorStatus MODE_GCodeMode(void)
 	Loc_f32Velocities[1] = Loc_f32Distance[1]/PLATFORM_ORIGIN_MAX_XY*MAX_VELOCITY;
 	Loc_f32Velocities[2] = Loc_f32Distance[2]/PLATFORM_ORIGIN_MAX_XY*MAX_VELOCITY;
 
-    return MODE_MovePlatform(Loc_f32Velocities);
+    return MODES_MovePlatform(Loc_f32Velocities);
 }
 /*__________________________________________________________________________________________________________________________________________*/
 
 
 /*Private Functions Definitions*/
-ErrorStatus MODE_MovePlatform(f32* inptr_f32Velocities)
+ErrorStatus MODES_MovePlatform(f32* inptr_f32Velocities)
 {
 	ErrorStatus Loc_ErrorStatusReturn = NO_ERROR;
 
@@ -164,19 +164,19 @@ ErrorStatus MODE_MovePlatform(f32* inptr_f32Velocities)
 		/*Moving Motor 0*/
 	Glob_u8Motor0Dir = (0 > Loc_f32ThetaDots[0]) ? TB_DIR_CCW : TB_DIR_CW;
 	Loc_f32ThetaDots[0] = MATH_abs(Loc_f32ThetaDots[0]);
-	Loc_ErrorStatusReturn = TB6600_Move(TB_MOTOR0, Glob_u8Motor0Dir, Loc_f32ThetaDots[0]/(2*MATH_PI)*STEPS_PER_REV*GEAR_RATIO*STEPPING_FACTOR, &MODE_UpdateCurrentStep0);
+	Loc_ErrorStatusReturn = TB6600_Engage(TB_MOTOR0, Glob_u8Motor0Dir, Loc_f32ThetaDots[0]/(2*MATH_PI)*STEPS_PER_REV*GEAR_RATIO*STEPPING_FACTOR, &MODES_UpdateCurrentStep0);
 	RETURN_IF_ERROR(Loc_ErrorStatusReturn);
 
 		/*Moving Motor 1*/
 	Glob_u8Motor1Dir = (0 > Loc_f32ThetaDots[1]) ? TB_DIR_CCW : TB_DIR_CW;
 	Loc_f32ThetaDots[1] = MATH_abs(Loc_f32ThetaDots[1]);
-	Loc_ErrorStatusReturn = TB6600_Move(TB_MOTOR1, Glob_u8Motor1Dir, Loc_f32ThetaDots[1]/(2*MATH_PI)*STEPS_PER_REV*GEAR_RATIO*STEPPING_FACTOR, &MODE_UpdateCurrentStep1);
+	Loc_ErrorStatusReturn = TB6600_Engage(TB_MOTOR1, Glob_u8Motor1Dir, Loc_f32ThetaDots[1]/(2*MATH_PI)*STEPS_PER_REV*GEAR_RATIO*STEPPING_FACTOR, &MODES_UpdateCurrentStep1);
 	RETURN_IF_ERROR(Loc_ErrorStatusReturn);
 
 		/*Moving Motor 2*/
 	Glob_u8Motor2Dir = (0 > Loc_f32ThetaDots[2]) ? TB_DIR_CCW : TB_DIR_CW;
 	Loc_f32ThetaDots[2] = MATH_abs(Loc_f32ThetaDots[2]);
-	Loc_ErrorStatusReturn = TB6600_Move(TB_MOTOR2, Glob_u8Motor2Dir, Loc_f32ThetaDots[2]/(2*MATH_PI)*STEPS_PER_REV*GEAR_RATIO*STEPPING_FACTOR, &MODE_UpdateCurrentStep2);
+	Loc_ErrorStatusReturn = TB6600_Engage(TB_MOTOR2, Glob_u8Motor2Dir, Loc_f32ThetaDots[2]/(2*MATH_PI)*STEPS_PER_REV*GEAR_RATIO*STEPPING_FACTOR, &MODES_UpdateCurrentStep2);
 	RETURN_IF_ERROR(Loc_ErrorStatusReturn);
 
 	return NO_ERROR;
@@ -185,7 +185,7 @@ ErrorStatus MODE_MovePlatform(f32* inptr_f32Velocities)
 
 
 /*Callback Functions Definitions*/
-void MODE_Calibrate(void)
+void MODES_Calibrate(void)
 {
 	Glob_s16CurrentStep0 = 119; /* (0.3738495 * 180 / MATH_PI / (1.8/2) * 5) */
     Glob_s16CurrentStep1 = 119; /* (0.3738495 * 180 / MATH_PI / (1.8/2) * 5) */
@@ -200,7 +200,7 @@ void MODE_Calibrate(void)
 	Glob_s8OffsetZ = JOY_INIT_PERCENTZ - Loc_JoyStatusReading.YPercent;
 }
 
-void MODE_UpdateMode(void)
+void MODES_UpdateMode(void)
 {
 	DIP_Read(&Glob_u8Mode);
 	
@@ -217,7 +217,7 @@ void MODE_UpdateMode(void)
     PORTA = Loc_SSCAT;
 }
 
-void MODE_UpdateCurrentStep0(void)
+void MODES_UpdateCurrentStep0(void)
 {
 	if(TB_DIR_CCW == Glob_u8Motor0Dir)
 	{
@@ -229,7 +229,7 @@ void MODE_UpdateCurrentStep0(void)
 	}
 }
 
-void MODE_UpdateCurrentStep1(void)
+void MODES_UpdateCurrentStep1(void)
 {
 	if(TB_DIR_CCW == Glob_u8Motor1Dir)
 	{
@@ -241,7 +241,7 @@ void MODE_UpdateCurrentStep1(void)
 	}
 }
 
-void MODE_UpdateCurrentStep2(void)
+void MODES_UpdateCurrentStep2(void)
 {
 	if(TB_DIR_CCW == Glob_u8Motor2Dir)
 	{
@@ -253,7 +253,7 @@ void MODE_UpdateCurrentStep2(void)
 	}
 }
 
-void MODE_StopMoving(void)
+void MODES_StopMoving(void)
 {
 	Glob_Move = 0;
 }

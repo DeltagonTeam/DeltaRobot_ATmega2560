@@ -38,22 +38,22 @@ static f32 Glob_f32GCode[3][20];
 
 
 /*Private Functions Declarations*/
-ErrorStatus MODE_MovePlatform(f32* inptr_f32Velocities);
+ErrorStatus MODES_MovePlatform(f32* inptr_f32Velocities);
 /*__________________________________________________________________________________________________________________________________________*/
 
 
 /*Callback Functions*/
-void MODE_Calibrate(void);
+void MODES_Calibrate(void);
 
-void MODE_UpdateMode(void);
+void MODES_UpdateMode(void);
 
-void MODE_UpdateCurrentStep0(void);
+void MODES_UpdateCurrentStep0(void);
 
-void MODE_UpdateCurrentStep1(void);
+void MODES_UpdateCurrentStep1(void);
 
-void MODE_UpdateCurrentStep2(void);
+void MODES_UpdateCurrentStep2(void);
 
-void MODE_StopMoving(void);
+void MODES_StopMoving(void);
 /*__________________________________________________________________________________________________________________________________________*/
 
 

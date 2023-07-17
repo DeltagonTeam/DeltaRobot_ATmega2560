@@ -31,7 +31,7 @@ int main(void)
 	Loc_ErrorStatusReturn = KIN_Init();
 	ERRORU_IF_ERROR(Loc_ErrorStatusReturn);
 
-	Loc_ErrorStatusReturn = MODE_InitModeUpdater();
+	Loc_ErrorStatusReturn = MODES_InitModeUpdater();
 	ERRORU_IF_ERROR(Loc_ErrorStatusReturn);
 
 	/*Loop*/
@@ -40,17 +40,17 @@ int main(void)
 		switch (Glob_u8Mode)
 		{
 		case IDLE_MODE:
-			Loc_ErrorStatusReturn = MODE_IdleMode();
+			Loc_ErrorStatusReturn = MODES_IdleMode();
 			ERRORU_IF_ERROR(Loc_ErrorStatusReturn);
 			break;
 
 		case CALIBRATE_MODE:
-			Loc_ErrorStatusReturn = MODE_CalibrateMode();
+			Loc_ErrorStatusReturn = MODES_CalibrateMode();
 			ERRORU_IF_ERROR(Loc_ErrorStatusReturn);
 			break;
 
 		case MANUAL_MODE:
-			Loc_ErrorStatusReturn = MODE_ManualMode();
+			Loc_ErrorStatusReturn = MODES_ManualMode();
 			ERRORU_IF_ERROR(Loc_ErrorStatusReturn);
 			break;
 

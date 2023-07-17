@@ -27,7 +27,7 @@
 #define PB_USE			PB0
 
 /*Range to ignore velocity fluctuations at*/
-#define MODE_SKIP_RANGE 	(1.0F)
+#define MODES_SKIP_RANGE 	(1.0F)
 /*__________________________________________________________________________________________________________________________________________*/
 
 

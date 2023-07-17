@@ -21,13 +21,13 @@ extern volatile u8 Glob_u8Mode;
 
 
 /*Public Functions Declarations*/
-ErrorStatus MODE_InitModeUpdater(void);
+ErrorStatus MODES_InitModeUpdater(void);
 
-ErrorStatus MODE_IdleMode(void);
+ErrorStatus MODES_IdleMode(void);
 
-ErrorStatus MODE_CalibrateMode(void);
+ErrorStatus MODES_CalibrateMode(void);
 
-ErrorStatus MODE_ManualMode(void);
+ErrorStatus MODES_ManualMode(void);
 /*__________________________________________________________________________________________________________________________________________*/
 
 
