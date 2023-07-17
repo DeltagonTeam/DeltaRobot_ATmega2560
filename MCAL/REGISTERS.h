@@ -1,12 +1,14 @@
 /**********************************************************************
- * Title	:	AT-MEGA32 Registers File
+ * Title	:	ATmega2560 Registers File
  * Layer	:	MCAL
  * Author	:	Ashraf Ehab
  * Last Update:	Oct 23, 2022
  **********************************************************************/
 
-#ifndef REGISTERS_H_
-#define REGISTERS_H_
+
+#ifndef REGISTERS_H
+#define REGISTERS_H
+
 
 /*8 Bit Registers*/
 #define UDR3		(*((volatile u8*)0x136))
@@ -193,6 +195,7 @@
 #define PORTA		(*((volatile u8*)0x22))
 #define DDRA		(*((volatile u8*)0x21))
 #define PINA		(*((volatile u8*)0x20))
+/*__________________________________________________________________________________________________________________________________________*/
 
 
 /*16 Bit Registers*/
@@ -223,5 +226,7 @@
 #define ADC			(*((volatile u16*)0x78))
 #define SP			(*((volatile u16*)0x5D))
 #define EEAR		(*((volatile u16*)0x41))
+/*__________________________________________________________________________________________________________________________________________*/
+
 
 #endif /*REGISTERS_H*/

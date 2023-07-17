@@ -15,7 +15,7 @@
 #include "../../Libraries/MACROS.h"
 #include "../../Libraries/BIT_MATH.h"
 #include "../REGISTERS.h"
-#include "../MCU_Config.h"
+#include "../MCU_Freq.h"
 #include "../Glob_Int.h"
 #include "../DIO/DIO_Interface.h"
 /*__________________________________________________________________________________________________________________________________________*/

@@ -1,13 +1,16 @@
 /**********************************************************************
- * Title		: Universal MACROS File
+ * Title		: Universal MACROS File for Commonly Needed Macros
  * Layer		: Libraries
  * Author		: Ashraf Ehab
  * Last Update	: Oct 23, 2022
  **********************************************************************/
 
-#ifndef MACROS_H_
-#define MACROS_H_
 
+#ifndef MACROS_H
+#define MACROS_H
+
+
+/*Defining Macros*/
 #define TRUE			(1u)
 #define FALSE			(0u)
 
@@ -25,9 +28,12 @@
 #define BIT_LOW			(0u)
 #define BYTE_HIGH		(0xFF)
 #define BYTE_LOW		(0x00)
+/*__________________________________________________________________________________________________________________________________________*/
 
 
+/*Defining Function-like Macros*/
 #define RETURN_IF_ERROR(X)		{if (NO_ERROR != X) return X;}
+/*__________________________________________________________________________________________________________________________________________*/
 
 
-#endif /*MACROS_H_ */
+#endif /*MACROS_H*/

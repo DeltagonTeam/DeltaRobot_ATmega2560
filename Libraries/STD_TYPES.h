@@ -5,11 +5,13 @@
  * Last Update	: Oct 23, 2022
  **********************************************************************/
 
-#ifndef STD_TYPES_H_
-#define STD_TYPES_H_
+
+#ifndef STD_TYPES_H
+#define STD_TYPES_H
 
 
 /*Type Definitions*/
+	/*Redefining Types for Portability and Conciseness*/
 typedef unsigned char 			u8;
 typedef signed char 			s8;
 
@@ -24,6 +26,7 @@ typedef float 					f32;
 typedef double 					f64;
 typedef long double 			f128;
 
+	/*Defining Different Error Types*/
 typedef enum
 {
 	NO_ERROR,
@@ -40,6 +43,7 @@ typedef enum
 	I2C_No_ACK_Recieved,
 	I2C_Arbitration_Lost
 }ErrorStatus;
+/*__________________________________________________________________________________________________________________________________________*/
 
 
-#endif	/* STD_TYPES_H_ */
+#endif	/* STD_TYPES_H*/

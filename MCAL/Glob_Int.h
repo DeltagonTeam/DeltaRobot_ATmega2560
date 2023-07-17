@@ -5,17 +5,28 @@
  * Last Update:	March 5, 2023
  **********************************************************************/
 
-#ifndef MCAL_GLOB_INT_H
-#define MCAL_GLOB_INT_H
 
+#ifndef GLOB_INT_H
+#define GLOB_INT_H
+
+
+/*Include Needed Files*/
 #include "../Libraries/BIT_MATH.h"
 #include "REGISTERS.h"
+/*__________________________________________________________________________________________________________________________________________*/
 
-#define INT_FLAG		(7u)
 
-#define ENABLE_GLOB_INT(void)		SET_BIT(SREG,INT_FLAG)
-#define DISABLE_GLOB_INT(void)		CLR_BIT(SREG,INT_FLAG)
-#define GET_GLOB_INT(void)			GET_BIT(SREG,INT_FLAG)
-#define MAKE_GLOB_INT(Val)		    MAKE_BIT(SREG,INT_FLAG,Val)
+/* Defining Needed Bits*/
+#define GLOB_INT_ENABLE	    (7u)
+/*__________________________________________________________________________________________________________________________________________*/
 
-#endif /*MCAL_GLOB_INT_H*/
+
+/*Defining Function-like Macros*/
+#define ENABLE_GLOB_INT(void)		SET_BIT(SREG,GLOB_INT_ENABLE)
+#define DISABLE_GLOB_INT(void)		CLR_BIT(SREG,GLOB_INT_ENABLE)
+#define GET_GLOB_INT(void)			GET_BIT(SREG,GLOB_INT_ENABLE)
+#define MAKE_GLOB_INT(Val)		    MAKE_BIT(SREG,GLOB_INT_ENABLE,Val)
+/*__________________________________________________________________________________________________________________________________________*/
+
+
+#endif /*GLOB_INT_H*/
