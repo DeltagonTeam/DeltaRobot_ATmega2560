@@ -163,19 +163,19 @@ ErrorStatus MODES_MovePlatform(f32* inptr_f32Velocities)
 	/*Moving the Motors*/
 		/*Moving Motor 0*/
 	Glob_u8Motor0Dir = (0 > Loc_f32ThetaDots[0]) ? TB_DIR_CCW : TB_DIR_CW;
-	Loc_f32ThetaDots[0] = MATH_abs(Loc_f32ThetaDots[0]);
+	Loc_f32ThetaDots[0] = fabsf(Loc_f32ThetaDots[0]);
 	Loc_ErrorStatusReturn = TB6600_Engage(TB_MOTOR0, Glob_u8Motor0Dir, Loc_f32ThetaDots[0]/(2*MATH_PI)*STEPS_PER_REV*GEAR_RATIO*STEPPING_FACTOR, &MODES_UpdateCurrentStep0);
 	RETURN_IF_ERROR(Loc_ErrorStatusReturn);
 
 		/*Moving Motor 1*/
 	Glob_u8Motor1Dir = (0 > Loc_f32ThetaDots[1]) ? TB_DIR_CCW : TB_DIR_CW;
-	Loc_f32ThetaDots[1] = MATH_abs(Loc_f32ThetaDots[1]);
+	Loc_f32ThetaDots[1] = fabsf(Loc_f32ThetaDots[1]);
 	Loc_ErrorStatusReturn = TB6600_Engage(TB_MOTOR1, Glob_u8Motor1Dir, Loc_f32ThetaDots[1]/(2*MATH_PI)*STEPS_PER_REV*GEAR_RATIO*STEPPING_FACTOR, &MODES_UpdateCurrentStep1);
 	RETURN_IF_ERROR(Loc_ErrorStatusReturn);
 
 		/*Moving Motor 2*/
 	Glob_u8Motor2Dir = (0 > Loc_f32ThetaDots[2]) ? TB_DIR_CCW : TB_DIR_CW;
-	Loc_f32ThetaDots[2] = MATH_abs(Loc_f32ThetaDots[2]);
+	Loc_f32ThetaDots[2] = fabsf(Loc_f32ThetaDots[2]);
 	Loc_ErrorStatusReturn = TB6600_Engage(TB_MOTOR2, Glob_u8Motor2Dir, Loc_f32ThetaDots[2]/(2*MATH_PI)*STEPS_PER_REV*GEAR_RATIO*STEPPING_FACTOR, &MODES_UpdateCurrentStep2);
 	RETURN_IF_ERROR(Loc_ErrorStatusReturn);
 

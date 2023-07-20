@@ -22,10 +22,6 @@
 
 
 /*Pre-Build Configuration Checks*/
-#if (DO_INCLUDE != MATH_INCLUDE_invsqrt) &&		(DO_NOT_INCLUDE != MATH_INCLUDE_invsqrt)
-	#error 'MATH_INCLUDE_invsqrt' can only be 'DO_INCLUDE' or 'DO_NOT_INCLUDE'
-#endif	/* MATH_INCLUDE_invsqrt */
-
 #if (DO_INCLUDE != MATH_INCLUDE_sin) 	 &&		(DO_NOT_INCLUDE != MATH_INCLUDE_sin)
 	#error 'MATH_INCLUDE_sin' can only be 'DO_INCLUDE' or 'DO_NOT_INCLUDE'
 #endif	/* MATH_INCLUDE_sin */
@@ -36,10 +32,6 @@
 
 #if (DO_INCLUDE != MATH_INCLUDE_atan2) 	 && 	(DO_NOT_INCLUDE != MATH_INCLUDE_atan2)
 	#error 'MATH_INCLUDE_atan2' can only be 'DO_INCLUDE' or 'DO_NOT_INCLUDE'
-#endif
-
-#if (DO_INCLUDE != MATH_IMPROVE_invsqrt) &&		(DO_NOT_INCLUDE != MATH_IMPROVE_invsqrt)
-	#error 'MATH_IMPROVE_invsqrt' can only be 'DO_INCLUDE' or 'DO_NOT_INCLUDE'
 #endif	/* MATH_INCLUDE_atan2 */
 /*__________________________________________________________________________________________________________________________________________*/
 

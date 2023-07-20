@@ -4,6 +4,7 @@
 
 /*Include Needed Files*/
 	/*Libraries*/
+#include <math.h>
 #include "../../Libraries/STD_TYPES.h"
 #include "../../Libraries/MACROS.h"
 #include "../../Libraries/BIT_MATH.h"
