@@ -29,14 +29,14 @@
 
 /*Public Macros*/
 /*
- * Function	: MATH_cos	: Calculates the cosine of an Angle in radians
+ * Function	: MATH_cos	    : Calculates the cosine of an Angle in radians
  * Input1 	: X			    : Input angle in radians		: - ve maximum of f32 to +ve maximum of f32
  * Return 	: 			    : the cosine of the input angle	: -1 to 1
  */
 #define MATH_cos(X)		(MATH_sin(MATH_PI_2 - (X)))
 
 /*
- * Function	: MATH_tan	: Calculates the tangent of an Angle in radians
+ * Function	: MATH_tan	    : Calculates the tangent of an Angle in radians
  * Input1 	: X			    : Input angle in radians			: - ve maximum of f32 to +ve maximum of f32 except 0 (has to be checked by the user)
  * Return 	: 			    : the tangent of the input angle	: -1 to 1
  */
@@ -46,7 +46,7 @@
 
 /*Public Functions Declarations*/
 /* 
- * Function	: MATH_sin		: Calculates the sine of an Angle in radians
+ * Function	: MATH_sin		    : Calculates the sine of an Angle in radians
  * Input1 	: incpy_f32Theta	: Input angle in radians		: - ve maximum of f32 to +ve maximum of f32
  * Return 	: 					: the sine of the input angle	: -1 to 1
  */

@@ -13,7 +13,7 @@
 
 /*Public Functions Definitions*/
 /* 
- * Function	: MATH_sin		: Calculates the sine of an Angle in radians
+ * Function	: MATH_sin			: Calculates the sine of an Angle in radians
  * Input1 	: incpy_f32Theta	: Input angle in radians		: -ve maximum of f32 to +ve maximum of f32
  * Return 	: 					: the sine of the input angle	: -1 to 1
  */
