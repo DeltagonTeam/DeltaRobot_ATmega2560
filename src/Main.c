@@ -54,6 +54,11 @@ int main(void)
 			ERRORU_IF_ERROR(Loc_ErrorStatusReturn);
 			break;
 
+		case GCODE_MODE:
+			Loc_ErrorStatusReturn = MODES_GCodeMode();
+			ERRORU_IF_ERROR(Loc_ErrorStatusReturn);
+			break;
+
 		default:
 			ERRORu(INVALID_MODE);
 			break;

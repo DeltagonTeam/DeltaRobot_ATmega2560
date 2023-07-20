@@ -121,7 +121,7 @@ ErrorStatus MODES_GCodeMode(void)
 	Loc_f32Velocities[1] = (Loc_f32Distance[1]/(2*PLATFORM_ORIGIN_MAX_XY)) * MAX_VELOCITY;
 	Loc_f32Velocities[2] = (Loc_f32Distance[2]/(2*PLATFORM_ORIGIN_MAX_XY)) * MAX_VELOCITY;
 
-	if(0 == Loc_f32Distance[0] && 0 == Loc_f32Distance[1] && 0 == Loc_f32Distance[2])
+	if(0 == Loc_f32Distance[0] && 0 == Loc_f32Distance[1] && 0 == Loc_f32Distance[2] && NO_OF_COORDS - 1 > Loc_u8GCodeIndex)
 	{
 		Loc_u8GCodeIndex++;
 	}

@@ -12,6 +12,7 @@
 #define IDLE_MODE		(0u)
 #define CALIBRATE_MODE 	(1u)
 #define MANUAL_MODE 	(2u)
+#define GCODE_MODE 		(3u)
 /*__________________________________________________________________________________________________________________________________________*/
 
 
@@ -28,6 +29,8 @@ ErrorStatus MODES_IdleMode(void);
 ErrorStatus MODES_CalibrateMode(void);
 
 ErrorStatus MODES_ManualMode(void);
+
+ErrorStatus MODES_GCodeMode(void);
 /*__________________________________________________________________________________________________________________________________________*/
 
 
