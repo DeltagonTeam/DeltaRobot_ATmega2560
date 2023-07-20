@@ -27,8 +27,11 @@
 #define PB_CALIBRATE	PB2
 #define PB_USE			PB0
 
-/*Range to ignore velocity fluctuations at*/
-#define MODES_SKIP_RANGE 	(1.0F)
+/*Defining Coordinate Arrays for G Code Mode*/
+#define NO_OF_COORDS 7
+static f32 Glob_f32GCode_XCoords[NO_OF_COORDS] = {0, 	60, 	60, 	-60, 	-60,	60,		0};
+static f32 Glob_f32GCode_YCoords[NO_OF_COORDS] = {0, 	60, 	-60,	-60, 	60, 	60,		0};
+static f32 Glob_f32GCode_ZCoords[NO_OF_COORDS] = {375, 	375, 	375, 	375, 	375, 	375,	375};
 /*__________________________________________________________________________________________________________________________________________*/
 
 

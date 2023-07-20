@@ -63,9 +63,15 @@ ErrorStatus MODES_ManualMode(void)
 	ErrorStatus Loc_ErrorStatusReturn = NO_ERROR;
 
 	f32 Loc_f32Velocities[3] = {0,0,0};
+	f32 Loc_f32Thetas[3] = {0,0,0};
 
 	JOY_Status Loc_JoyStatusXY = {0,0};
 	JOY_Status Loc_JoyStatusZR = {0,0};
+
+	/*Calculating Thetas from Steps*/
+    Loc_f32Thetas[0] = RADS_PER_STEP * Glob_s16CurrentStep0;
+	Loc_f32Thetas[1] = RADS_PER_STEP * Glob_s16CurrentStep1;
+	Loc_f32Thetas[2] = RADS_PER_STEP * Glob_s16CurrentStep2;
 
 	/*Reading Velocities from Joysticks*/
 	Loc_ErrorStatusReturn = JOY_Read(JOYSTICK0, &Loc_JoyStatusXY);
@@ -81,44 +87,52 @@ ErrorStatus MODES_ManualMode(void)
 	Loc_f32Velocities[1] = (f32)Loc_JoyStatusXY.YPercent*MAX_VELOCITY/100;
 	Loc_f32Velocities[2] = (f32)Loc_JoyStatusZR.YPercent*MAX_VELOCITY/100;
 
-    return MODES_MovePlatform(Loc_f32Velocities);
+    return MODES_MovePlatform(Loc_f32Velocities, Loc_f32Thetas);
 }
 
 ErrorStatus MODES_GCodeMode(void)
 {
 	ErrorStatus Loc_ErrorStatusReturn = NO_ERROR;
 
-	u8 Loc_u8GCodeIndex = 0;
+	static u8 Loc_u8GCodeIndex = 0;
 	f32 Loc_f32Velocities[3] = {0,0,0};
 	f32 Loc_f32Distance[3] = {0,0,0};
 	f32 Loc_f32Coords[3] = {0,0,0};
 	f32 Loc_f32Thetas[3] = {0,0,0};
 
-	/*Reading Thetas from Angles*/
-    Loc_f32Thetas[0] = 0.003141593F * Glob_s16CurrentStep0;
-	Loc_f32Thetas[1] = 0.003141593F * Glob_s16CurrentStep1;
-	Loc_f32Thetas[2] = 0.003141593F * Glob_s16CurrentStep2;
+	/*Calculating Thetas from Steps*/
+    Loc_f32Thetas[0] = RADS_PER_STEP * Glob_s16CurrentStep0;
+	Loc_f32Thetas[1] = RADS_PER_STEP * Glob_s16CurrentStep1;
+	Loc_f32Thetas[2] = RADS_PER_STEP * Glob_s16CurrentStep2;
 
 	/*Calculating Coordinates*/
 	Loc_ErrorStatusReturn = KIN_GetCoords(Loc_f32Thetas, Loc_f32Coords);
 	RETURN_IF_ERROR(Loc_ErrorStatusReturn);
 
-	for (u8 Loc_u8i = 0; 3 > Loc_u8i; Loc_u8i++)
-	{
-		Loc_f32Distance[Loc_u8i] = Glob_f32GCode[Loc_u8i][Loc_u8GCodeIndex] - Loc_f32Coords[Loc_u8i];
-	}
-	
-	Loc_f32Velocities[0] = Loc_f32Distance[0]/PLATFORM_ORIGIN_MAX_XY*MAX_VELOCITY;
-	Loc_f32Velocities[1] = Loc_f32Distance[1]/PLATFORM_ORIGIN_MAX_XY*MAX_VELOCITY;
-	Loc_f32Velocities[2] = Loc_f32Distance[2]/PLATFORM_ORIGIN_MAX_XY*MAX_VELOCITY;
+	Loc_f32Distance[0] = Glob_f32GCode_XCoords[Loc_u8GCodeIndex] - Loc_f32Coords[0];
+	Loc_f32Distance[1] = Glob_f32GCode_YCoords[Loc_u8GCodeIndex] - Loc_f32Coords[1];
+	Loc_f32Distance[2] = Glob_f32GCode_ZCoords[Loc_u8GCodeIndex] - Loc_f32Coords[2];
 
-    return MODES_MovePlatform(Loc_f32Velocities);
+	Loc_f32Distance[0] = (3 > fabsf(Loc_f32Distance[0])) ? 0 : Loc_f32Distance[0];
+	Loc_f32Distance[1] = (3 > fabsf(Loc_f32Distance[1])) ? 0 : Loc_f32Distance[1];
+	Loc_f32Distance[2] = (3 > fabsf(Loc_f32Distance[2])) ? 0 : Loc_f32Distance[2];
+	
+	Loc_f32Velocities[0] = (Loc_f32Distance[0]/(2*PLATFORM_ORIGIN_MAX_XY)) * MAX_VELOCITY;
+	Loc_f32Velocities[1] = (Loc_f32Distance[1]/(2*PLATFORM_ORIGIN_MAX_XY)) * MAX_VELOCITY;
+	Loc_f32Velocities[2] = (Loc_f32Distance[2]/(2*PLATFORM_ORIGIN_MAX_XY)) * MAX_VELOCITY;
+
+	if(0 == Loc_f32Distance[0] && 0 == Loc_f32Distance[1] && 0 == Loc_f32Distance[2])
+	{
+		Loc_u8GCodeIndex++;
+	}
+
+    return MODES_MovePlatform(Loc_f32Velocities, Loc_f32Thetas);
 }
 /*__________________________________________________________________________________________________________________________________________*/
 
 
 /*Private Functions Definitions*/
-ErrorStatus MODES_MovePlatform(const f32* inptr_f32Velocities)
+ErrorStatus MODES_MovePlatform(const f32* inptr_f32Velocities, const f32* inptr_f32Thetas)
 {
 	ErrorStatus Loc_ErrorStatusReturn = NO_ERROR;
 
@@ -133,9 +147,9 @@ ErrorStatus MODES_MovePlatform(const f32* inptr_f32Velocities)
 	Loc_f32Velocities[2] = inptr_f32Velocities[2];
 
 	/*Reading Thetas from Angles*/
-    Loc_f32Thetas[0] = 0.003141593F * Glob_s16CurrentStep0;
-	Loc_f32Thetas[1] = 0.003141593F * Glob_s16CurrentStep1;
-	Loc_f32Thetas[2] = 0.003141593F * Glob_s16CurrentStep2;
+    Loc_f32Thetas[0] = inptr_f32Thetas[0];
+	Loc_f32Thetas[1] = inptr_f32Thetas[1];
+	Loc_f32Thetas[2] = inptr_f32Thetas[2];
 
 	/*Calculating Coordinates*/
 	Loc_ErrorStatusReturn = KIN_GetCoords(Loc_f32Thetas, Loc_f32Coords);
@@ -257,9 +271,4 @@ void MODES_UpdateCurrentStep2(void)
 	{
 		Glob_s16CurrentStep2++;
 	}
-}
-
-void MODES_StopMoving(void)
-{
-	Glob_Move = 0;
 }

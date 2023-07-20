@@ -19,7 +19,6 @@ static volatile s8 Glob_s8OffsetX = 0;
 static volatile s8 Glob_s8OffsetY = 0;
 static volatile s8 Glob_s8OffsetZ = 0;
 static volatile u8 Glob_Move = 1;
-static f32 Glob_f32GCode[3][20];
 /*__________________________________________________________________________________________________________________________________________*/
 
 
@@ -28,7 +27,9 @@ static f32 Glob_f32GCode[3][20];
 #define GEAR_RATIO 			(5.0F)
 #define MAX_VELOCITY 		(60.0F)
 #define STEPPING_FACTOR 	(2.0F)
+#define STEP_ANGLE_DEG		(1.8F)
 #define STEPS_PER_REV		(200.0F)
+#define RADS_PER_STEP		(0.003141593F)	/* (STEP_ANGLE_DEG/STEPPING_FACTOR) * (MATH_PI / 180) / GEAR_RATIO) */
 
 	/*The Joysticks Calibration Angles*/
 #define JOY_INIT_PERCENTX 	0      /*Middle Position of Joy Stick in Axis X*/
@@ -38,7 +39,7 @@ static f32 Glob_f32GCode[3][20];
 
 
 /*Private Functions Declarations*/
-ErrorStatus MODES_MovePlatform(const f32* inptr_f32Velocities);
+ErrorStatus MODES_MovePlatform(const f32* inptr_f32Velocities, const f32* inptr_f32Thetas);
 /*__________________________________________________________________________________________________________________________________________*/
 
 
@@ -52,8 +53,6 @@ void MODES_UpdateCurrentStep0(void);
 void MODES_UpdateCurrentStep1(void);
 
 void MODES_UpdateCurrentStep2(void);
-
-void MODES_StopMoving(void);
 /*__________________________________________________________________________________________________________________________________________*/
 
 
