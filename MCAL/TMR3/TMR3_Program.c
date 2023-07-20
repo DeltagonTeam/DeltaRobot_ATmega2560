@@ -242,7 +242,7 @@ ErrorStatus TMR3_Counter(u16 incpy_u16Count, void (*inptr_vdISR) (void))
  * Input3 	: inptr_vdISR				: Pointer to Function					: Function to be executed
  * Return 	: ErrorStatus				: Error Status of function
  */
-ErrorStatus TMR3_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8RunCallBackFunc, void (*inptr_vdISR) (void))
+ErrorStatus TMR3_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8DutyCycle, u8 incpy_u8RunCallBackFunc, void (*inptr_vdISR) (void))
 {
 	u32 Loc_OCR3AValue = 0;
 	u8 Loc_u8GlobIntStatus = 0;
@@ -305,7 +305,7 @@ ErrorStatus TMR3_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8RunCallBackFunc, voi
 	DISABLE_GLOB_INT();
 
 	OCR3A = Loc_OCR3AValue;
-	OCR3B = OCR3A >> 1;
+	OCR3B = (0 < incpy_u8DutyCycle)? (OCR3A / (100/incpy_u8DutyCycle)) : 0;
 
 	if (TRUE == incpy_u8RunCallBackFunc)
 	{

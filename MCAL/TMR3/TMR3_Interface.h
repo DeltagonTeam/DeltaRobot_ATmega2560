@@ -75,7 +75,7 @@ ErrorStatus TMR3_Counter(u16 incpy_u16Count, void (*inptr_vdISR) (void));
  * Input3 	: inptr_vdISR				: Pointer to Function					: Function to be executed
  * Return 	: ErrorStatus				: Error Status of function
  */
-ErrorStatus TMR3_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8RunCallBackFunc, void (*inptr_vdISR) (void));
+ErrorStatus TMR3_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8DutyCycle, u8 incpy_u8RunCallBackFunc, void (*inptr_vdISR) (void));
 
 /*
  * Function	: TMR3_Stop	        : Stop Timer 3

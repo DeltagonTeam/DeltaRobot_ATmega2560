@@ -238,11 +238,12 @@ ErrorStatus TMR1_Counter(u16 incpy_u16Count, void (*inptr_vdISR) (void))
 /*
  * Function	: TMR1_PWMStart				: Start a PWM signal on pin OC1B with a 50% duty Cycle
  * Input1 	: incpy_u8Frequency			: Frequency of the PWM in Hz			: 0 - 0xFFFF
- * Input2 	: incpy_u8RunCallBackFunc	: Whether to run a callback function	: TRUE, FALSE 
- * Input3 	: inptr_vdISR				: Pointer to Function					: Function to be executed
+ * Input2 	: incpy_u8DutyCycle			: Duty cycle of PWM in percentage		: 0 - 100
+ * Input3 	: incpy_u8RunCallBackFunc	: Whether to run a callback function	: TRUE, FALSE 
+ * Input4 	: inptr_vdISR				: Pointer to Function					: Function to be executed
  * Return 	: ErrorStatus				: Error Status of function
  */
-ErrorStatus TMR1_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8RunCallBackFunc, void (*inptr_vdISR) (void))
+ErrorStatus TMR1_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8DutyCycle, u8 incpy_u8RunCallBackFunc, void (*inptr_vdISR) (void))
 {
 	u32 Loc_OCR1AValue = 0;
 	u8 Loc_u8GlobIntStatus = 0;
@@ -305,7 +306,7 @@ ErrorStatus TMR1_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8RunCallBackFunc, voi
 	DISABLE_GLOB_INT();
 
 	OCR1A = Loc_OCR1AValue;
-	OCR1B = OCR1A >> 1;
+	OCR1B = (0 < incpy_u8DutyCycle)? (OCR1A / (100/incpy_u8DutyCycle)) : 0;
 
 	if (TRUE == incpy_u8RunCallBackFunc)
 	{

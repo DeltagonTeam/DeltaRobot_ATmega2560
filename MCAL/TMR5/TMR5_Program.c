@@ -242,7 +242,7 @@ ErrorStatus TMR5_Counter(u16 incpy_u16Count, void (*inptr_vdISR) (void))
  * Input3 	: inptr_vdISR				: Pointer to Function					: Function to be executed
  * Return 	: ErrorStatus				: Error Status of function
  */
-ErrorStatus TMR5_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8RunCallBackFunc, void (*inptr_vdISR) (void))
+ErrorStatus TMR5_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8DutyCycle, u8 incpy_u8RunCallBackFunc, void (*inptr_vdISR) (void))
 {
 	u32 Loc_OCR5AValue = 0;
 	u8 Loc_u8GlobIntStatus = 0;
@@ -305,7 +305,7 @@ ErrorStatus TMR5_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8RunCallBackFunc, voi
 	DISABLE_GLOB_INT();
 
 	OCR5A = Loc_OCR5AValue;
-	OCR5B = OCR5A >> 1;
+	OCR5B = (0 < incpy_u8DutyCycle)? (OCR5A / (100/incpy_u8DutyCycle)) : 0;
 
 	if (TRUE == incpy_u8RunCallBackFunc)
 	{
