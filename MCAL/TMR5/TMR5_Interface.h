@@ -19,7 +19,7 @@
     /*Timer Modes*/
 #define TMR5_CTC_REPEAT		    (0u)        /*Timer in CTC mode - will clear the timer on compare match and restart*/
 #define TMR5_CTC_ONCE		    (1u)        /*Timer in CTC mode - will clear the timer on compare match but run only once*/
-#define TMR5_PWM		        (2u)        /*Timer in phase correct PWM mode*/
+#define TMR5_PWM		        (2u)        /*Timer in phase and frequency correct PWM mode*/
 #define TMR5_COUNTER_REPEAT	    (3u)        /*Timer in counter mode - will clear the counter on compare match and restart*/
 #define TMR5_COUNTER_ONCE	    (4u)        /*Timer in counter mode - will clear the counter on compare match but run only once*/
 
