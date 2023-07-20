@@ -35,10 +35,10 @@ static ErrorStatus KIN_CalcTheta(f32 incpy_f32E, f32 incpy_f32F, f32 incpy_f32G,
 	}
     
     /*Choosing the Solution to be Returned*/
-    Loc_f32Tangent_a = (-incpy_f32F + MATH_sqrt(Loc_f32Under_Sqrt)) / (incpy_f32G - incpy_f32E);
-    Loc_f32Tangent_b = (-incpy_f32F - MATH_sqrt(Loc_f32Under_Sqrt)) / (incpy_f32G - incpy_f32E);
+    Loc_f32Tangent_a = (-incpy_f32F + sqrt(Loc_f32Under_Sqrt)) / (incpy_f32G - incpy_f32E);
+    Loc_f32Tangent_b = (-incpy_f32F - sqrt(Loc_f32Under_Sqrt)) / (incpy_f32G - incpy_f32E);
 
-    if (MATH_abs(Loc_f32Tangent_a) < MATH_abs(Loc_f32Tangent_b))
+    if (fabsf(Loc_f32Tangent_a) < fabsf(Loc_f32Tangent_b))
 	{
         *outptr_f32Theta = 2*MATH_atan(Loc_f32Tangent_a);
 	}
@@ -111,7 +111,7 @@ static ErrorStatus KIN_Trilaterate(const f32* inptr_f32A1, const f32* inptr_f32A
     }
 
     /*Calculating the Coordinates*/
-    f32 Loc_f32z = 0.5 * (-Loc_f32b0 - MATH_sqrt(Loc_f32b0 * Loc_f32b0 - 4 * Loc_f32a0 * Loc_f32c0)) / Loc_f32a0;
+    f32 Loc_f32z = 0.5 * (-Loc_f32b0 - sqrt(Loc_f32b0 * Loc_f32b0 - 4 * Loc_f32a0 * Loc_f32c0)) / Loc_f32a0;
     f32 Loc_f32y = Loc_f32a4 * Loc_f32z + Loc_f32a5;
     f32 Loc_f32x = -Loc_f32a6 * Loc_f32z + Loc_f32a7;
 
