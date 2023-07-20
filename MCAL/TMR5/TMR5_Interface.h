@@ -46,36 +46,36 @@ ErrorStatus TMR5_Init(u8 incpy_u8Mode, u8 incpy_u8Prescaler);
 
 /*
  * Function	: TMR5_CTC_MS			: Set a function to be executed after/every x milliseconds
- * Input1 	: incpy_u16TimeMilliSec	: x milliseconds		: 0 - 0xFFFF
- * Input2 	: inptr_vdISR			: Pointer to Function	: Function to be executed
+ * Input1 	: incpy_u16TimeMilliSec	: x milliseconds		                : 0 - 0xFFFF
+ * Input2 	: inptr_vdCallback		: Pointer to the callback function      : Pointer to function
  * Return 	: ErrorStatus			: Error Status of function
  */
-ErrorStatus TMR5_CTC_MS(u16 incpy_u16TimeMilliSec, void (*inptr_vdISR) (void));
+ErrorStatus TMR5_CTC_MS(u16 incpy_u16TimeMilliSec, void (*inptr_vdCallback) (void));
 
 /*
  * Function	: TMR5_CTC_S			: Set a function to be executed after/every x seconds
- * Input1 	: incpy_u16TimeMilliSec	: x seconds				: 0 - 0xFFFF
- * Input2 	: inptr_vdISR			: Pointer to Function	: Function to be executed
+ * Input1 	: incpy_u16TimeMilliSec	: x seconds				                : 0 - 0xFFFF
+ * Input2 	: inptr_vdCallback		: Pointer to the callback function      : Pointer to function
  * Return 	: ErrorStatus			: Error Status of function
  */
-ErrorStatus TMR5_CTC_S(u16 incpy_u16TimeSec, void (*inptr_vdISR) (void));
+ErrorStatus TMR5_CTC_S(u16 incpy_u16TimeSec, void (*inptr_vdCallback) (void));
 
 /*
  * Function	: TMR5_Counter			: Set a function to be executed after/every x edges on pin T5
- * Input1 	: incpy_u16Count		: x times				: 0 - 0xFFFF
- * Input2 	: inptr_vdISR			: Pointer to Function	: Function to be executed
+ * Input1 	: incpy_u16Count		: x times				                : 0 - 0xFFFF
+ * Input2 	: inptr_vdCallback		: Pointer to the callback function      : Pointer to function
  * Return 	: ErrorStatus			: Error Status of function
  */
-ErrorStatus TMR5_Counter(u16 incpy_u16Count, void (*inptr_vdISR) (void));
+ErrorStatus TMR5_Counter(u16 incpy_u16Count, void (*inptr_vdCallback) (void));
 
 /*
  * Function	: TMR5_PWMStart				: Start a PWM signal on pin OC5B with a 50% duty Cycle
  * Input1 	: incpy_u8Frequency			: Frequency of the PWM in Hz			: 0 - 0xFFFF
  * Input2 	: incpy_u8RunCallBackFunc	: Whether to run a callback function	: TRUE, FALSE 
- * Input3 	: inptr_vdISR				: Pointer to Function					: Function to be executed
+ * Input3 	: inptr_vdCallback			: Pointer to the callback function      : Pointer to function
  * Return 	: ErrorStatus				: Error Status of function
  */
-ErrorStatus TMR5_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8DutyCycle, u8 incpy_u8RunCallBackFunc, void (*inptr_vdISR) (void));
+ErrorStatus TMR5_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8DutyCycle, u8 incpy_u8RunCallBackFunc, void (*inptr_vdCallback) (void));
 
 /*
  * Function	: TMR5_Stop	        : Stop Timer 5

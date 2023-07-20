@@ -100,22 +100,22 @@ ErrorStatus TMR3_Init(u8 incpy_u8Mode, u8 incpy_u8Prescaler)
 
 /*
  * Function	: TMR3_CTC_MS			: Set a function to be executed after/every x milliseconds
- * Input1 	: incpy_u16TimeMilliSec	: x milliseconds		: 0 - 0xFFFF
- * Input2 	: inptr_vdISR			: Pointer to Function	: Function to be executed
+ * Input1 	: incpy_u16TimeMilliSec	: x milliseconds						: 0 - 0xFFFF
+ * Input2 	: inptr_vdCallback		: Pointer to the callback function      : Pointer to function
  * Return 	: ErrorStatus			: Error Status of function
  */
-ErrorStatus TMR3_CTC_MS(u16 incpy_u16TimeMilliSec, void (*inptr_vdISR) (void))
+ErrorStatus TMR3_CTC_MS(u16 incpy_u16TimeMilliSec, void (*inptr_vdCallback) (void))
 {
 	if (TMR3_CTC_ONCE != Glob_u8TMR3_MODE && TMR3_CTC_REPEAT != Glob_u8TMR3_MODE)
 	{
 		return INVALID_FUNCTION;
 	}
-	if (NULL == inptr_vdISR)
+	if (NULL == inptr_vdCallback)
 	{
 		return NULL_POINTER_PASSED;
 	}
 
-	Globptr_vdTMR3_CTC_ISR = inptr_vdISR;	/*Setting the pointer to function for use in the ISR*/
+	Globptr_vdTMR3Callback = inptr_vdCallback;	/*Setting the pointer to function for use in the ISR*/
 
 	DISABLE_GLOB_INT(void);			/*Disabling interrupts as accessing a 16-bit register is an atomic operation*/
 	TCNT3 = 0x0000;					/*Clear Timer*/
@@ -153,22 +153,22 @@ ErrorStatus TMR3_CTC_MS(u16 incpy_u16TimeMilliSec, void (*inptr_vdISR) (void))
 
 /*
  * Function	: TMR3_CTC_S			: Set a function to be executed after/every x seconds
- * Input1 	: incpy_u16TimeMilliSec	: x seconds				: 0 - 0xFFFF
- * Input2 	: inptr_vdISR			: Pointer to Function	: Function to be executed
+ * Input1 	: incpy_u16TimeMilliSec	: x seconds								: 0 - 0xFFFF
+ * Input2 	: inptr_vdCallback		: Pointer to the callback function      : Pointer to function
  * Return 	: ErrorStatus			: Error Status of function
  */
-ErrorStatus TMR3_CTC_S(u16 incpy_u16TimeSec, void (*inptr_vdISR) (void))
+ErrorStatus TMR3_CTC_S(u16 incpy_u16TimeSec, void (*inptr_vdCallback) (void))
 {
 	if (TMR3_CTC_ONCE != Glob_u8TMR3_MODE && TMR3_CTC_REPEAT != Glob_u8TMR3_MODE)
 	{
 		return INVALID_FUNCTION;
 	}
-	if (NULL == inptr_vdISR)
+	if (NULL == inptr_vdCallback)
 	{
 		return NULL_POINTER_PASSED;
 	}
 	
-	Globptr_vdTMR3_CTC_ISR = inptr_vdISR;	/*Setting the pointer to function for use in the ISR*/
+	Globptr_vdTMR3Callback = inptr_vdCallback;	/*Setting the pointer to function for use in the ISR*/
 
 	DISABLE_GLOB_INT(void);			/*Disabling interrupts as accessing a 16-bit register is an atomic operation*/
 	TCNT3 = 0x0000;					/*Clear Timer*/
@@ -206,22 +206,22 @@ ErrorStatus TMR3_CTC_S(u16 incpy_u16TimeSec, void (*inptr_vdISR) (void))
 
 /*
  * Function	: TMR3_Counter			: Set a function to be executed after/every x edges on pin T3
- * Input1 	: incpy_u16Count		: x times				: 0 - 0xFFFF
- * Input2 	: inptr_vdISR			: Pointer to Function	: Function to be executed
+ * Input1 	: incpy_u16Count		: x times								: 0 - 0xFFFF
+ * Input2 	: inptr_vdCallback		: Pointer to the callback function      : Pointer to function
  * Return 	: ErrorStatus			: Error Status of function
  */
-ErrorStatus TMR3_Counter(u16 incpy_u16Count, void (*inptr_vdISR) (void))
+ErrorStatus TMR3_Counter(u16 incpy_u16Count, void (*inptr_vdCallback) (void))
 {
 	if (TMR3_COUNTER_ONCE != Glob_u8TMR3_MODE && TMR3_COUNTER_REPEAT != Glob_u8TMR3_MODE)
 	{
 		return INVALID_FUNCTION;
 	}
-	if (NULL == inptr_vdISR)
+	if (NULL == inptr_vdCallback)
 	{
 		return NULL_POINTER_PASSED;
 	}
 
-	Globptr_vdTMR3_CTC_ISR = inptr_vdISR;	/*Setting the pointer to function for use in the ISR*/
+	Globptr_vdTMR3Callback = inptr_vdCallback;	/*Setting the pointer to function for use in the ISR*/
 
 	DISABLE_GLOB_INT(void);			/*Disabling interrupts as accessing a 16-bit register is an atomic operation*/
 	TCNT3 = 0x0000;					/*Clear Timer*/
@@ -239,10 +239,10 @@ ErrorStatus TMR3_Counter(u16 incpy_u16Count, void (*inptr_vdISR) (void))
  * Function	: TMR3_PWMStart				: Start a PWM signal on pin OC3B with a 50% duty Cycle
  * Input1 	: incpy_u8Frequency			: Frequency of the PWM in Hz			: 0 - 0xFFFF
  * Input2 	: incpy_u8RunCallBackFunc	: Whether to run a callback function	: TRUE, FALSE 
- * Input3 	: inptr_vdISR				: Pointer to Function					: Function to be executed
+ * Input3 	: inptr_vdCallback			: Pointer to the callback function      : Pointer to function
  * Return 	: ErrorStatus				: Error Status of function
  */
-ErrorStatus TMR3_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8DutyCycle, u8 incpy_u8RunCallBackFunc, void (*inptr_vdISR) (void))
+ErrorStatus TMR3_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8DutyCycle, u8 incpy_u8RunCallBackFunc, void (*inptr_vdCallback) (void))
 {
 	u32 Loc_OCR3AValue = 0;
 	u8 Loc_u8GlobIntStatus = 0;
@@ -251,7 +251,7 @@ ErrorStatus TMR3_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8DutyCycle, u8 incpy_
 	{
 		return INVALID_FUNCTION;
 	}
-	if (TRUE == incpy_u8RunCallBackFunc && NULL == inptr_vdISR)
+	if (TRUE == incpy_u8RunCallBackFunc && NULL == inptr_vdCallback)
 	{
 		return NULL_POINTER_PASSED;
 	}
@@ -298,7 +298,7 @@ ErrorStatus TMR3_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8DutyCycle, u8 incpy_
 	}
 	Loc_OCR3AValue = (0xFFFF < Loc_OCR3AValue) ? 0xFFFF : Loc_OCR3AValue;
 
-	Globptr_vdTMR3_CTC_ISR = inptr_vdISR;
+	Globptr_vdTMR3Callback = inptr_vdCallback;
 	
 	/*Disabling Global Interrupt while accessing a 16-bit registers*/
 	Loc_u8GlobIntStatus = GET_GLOB_INT();
@@ -347,8 +347,8 @@ void __vector_32(void)
 		TCCR3B &= 0xF8;		/*Turning Timer off by removing pre-scaler*/
 	}
 
-	if (NULL != Globptr_vdTMR3_CTC_ISR)
+	if (NULL != Globptr_vdTMR3Callback)
 	{
-		Globptr_vdTMR3_CTC_ISR();
+		Globptr_vdTMR3Callback();
 	}
 }

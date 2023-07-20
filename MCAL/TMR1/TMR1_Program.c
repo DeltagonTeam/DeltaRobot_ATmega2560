@@ -100,22 +100,22 @@ ErrorStatus TMR1_Init(u8 incpy_u8Mode, u8 incpy_u8Prescaler)
 
 /*
  * Function	: TMR1_CTC_MS			: Set a function to be executed after/every x milliseconds
- * Input1 	: incpy_u16TimeMilliSec	: x milliseconds		: 0 - 0xFFFF
- * Input2 	: inptr_vdISR			: Pointer to Function	: Function to be executed
+ * Input1 	: incpy_u16TimeMilliSec	: x milliseconds						: 0 - 0xFFFF
+ * Input2 	: inptr_vdCallback		: Pointer to the callback function      : Pointer to function
  * Return 	: ErrorStatus			: Error Status of function
  */
-ErrorStatus TMR1_CTC_MS(u16 incpy_u16TimeMilliSec, void (*inptr_vdISR) (void))
+ErrorStatus TMR1_CTC_MS(u16 incpy_u16TimeMilliSec, void (*inptr_vdCallback) (void))
 {
 	if (TMR1_CTC_ONCE != Glob_u8TMR1_MODE && TMR1_CTC_REPEAT != Glob_u8TMR1_MODE)
 	{
 		return INVALID_FUNCTION;
 	}
-	if (NULL == inptr_vdISR)
+	if (NULL == inptr_vdCallback)
 	{
 		return NULL_POINTER_PASSED;
 	}
 
-	Globptr_vdTMR1_CTC_ISR = inptr_vdISR;	/*Setting the pointer to function for use in the ISR*/
+	Globptr_vdTMR1Callback = inptr_vdCallback;	/*Setting the pointer to function for use in the ISR*/
 
 	DISABLE_GLOB_INT(void);			/*Disabling interrupts as accessing a 16-bit register is an atomic operation*/
 	TCNT1 = 0x0000;					/*Clear Timer*/
@@ -153,22 +153,22 @@ ErrorStatus TMR1_CTC_MS(u16 incpy_u16TimeMilliSec, void (*inptr_vdISR) (void))
 
 /*
  * Function	: TMR1_CTC_S			: Set a function to be executed after/every x seconds
- * Input1 	: incpy_u16TimeMilliSec	: x seconds				: 0 - 0xFFFF
- * Input2 	: inptr_vdISR			: Pointer to Function	: Function to be executed
+ * Input1 	: incpy_u16TimeMilliSec	: x seconds								: 0 - 0xFFFF
+ * Input2 	: inptr_vdCallback		: Pointer to the callback function      : Pointer to function
  * Return 	: ErrorStatus			: Error Status of function
  */
-ErrorStatus TMR1_CTC_S(u16 incpy_u16TimeSec, void (*inptr_vdISR) (void))
+ErrorStatus TMR1_CTC_S(u16 incpy_u16TimeSec, void (*inptr_vdCallback) (void))
 {
 	if (TMR1_CTC_ONCE != Glob_u8TMR1_MODE && TMR1_CTC_REPEAT != Glob_u8TMR1_MODE)
 	{
 		return INVALID_FUNCTION;
 	}
-	if (NULL == inptr_vdISR)
+	if (NULL == inptr_vdCallback)
 	{
 		return NULL_POINTER_PASSED;
 	}
 	
-	Globptr_vdTMR1_CTC_ISR = inptr_vdISR;	/*Setting the pointer to function for use in the ISR*/
+	Globptr_vdTMR1Callback = inptr_vdCallback;	/*Setting the pointer to function for use in the ISR*/
 
 	DISABLE_GLOB_INT(void);			/*Disabling interrupts as accessing a 16-bit register is an atomic operation*/
 	TCNT1 = 0x0000;					/*Clear Timer*/
@@ -206,22 +206,22 @@ ErrorStatus TMR1_CTC_S(u16 incpy_u16TimeSec, void (*inptr_vdISR) (void))
 
 /*
  * Function	: TMR1_Counter			: Set a function to be executed after/every x edges on pin T1
- * Input1 	: incpy_u16Count		: x times				: 0 - 0xFFFF
- * Input2 	: inptr_vdISR			: Pointer to Function	: Function to be executed
+ * Input1 	: incpy_u16Count		: x times								: 0 - 0xFFFF
+ * Input2 	: inptr_vdCallback		: Pointer to the callback function      : Pointer to function
  * Return 	: ErrorStatus			: Error Status of function
  */
-ErrorStatus TMR1_Counter(u16 incpy_u16Count, void (*inptr_vdISR) (void))
+ErrorStatus TMR1_Counter(u16 incpy_u16Count, void (*inptr_vdCallback) (void))
 {
 	if (TMR1_COUNTER_ONCE != Glob_u8TMR1_MODE && TMR1_COUNTER_REPEAT != Glob_u8TMR1_MODE)
 	{
 		return INVALID_FUNCTION;
 	}
-	if (NULL == inptr_vdISR)
+	if (NULL == inptr_vdCallback)
 	{
 		return NULL_POINTER_PASSED;
 	}
 
-	Globptr_vdTMR1_CTC_ISR = inptr_vdISR;	/*Setting the pointer to function for use in the ISR*/
+	Globptr_vdTMR1Callback = inptr_vdCallback;	/*Setting the pointer to function for use in the ISR*/
 
 	DISABLE_GLOB_INT(void);			/*Disabling interrupts as accessing a 16-bit register is an atomic operation*/
 	TCNT1 = 0x0000;					/*Clear Timer*/
@@ -240,10 +240,10 @@ ErrorStatus TMR1_Counter(u16 incpy_u16Count, void (*inptr_vdISR) (void))
  * Input1 	: incpy_u8Frequency			: Frequency of the PWM in Hz			: 0 - 0xFFFF
  * Input2 	: incpy_u8DutyCycle			: Duty cycle of PWM in percentage		: 0 - 100
  * Input3 	: incpy_u8RunCallBackFunc	: Whether to run a callback function	: TRUE, FALSE 
- * Input4 	: inptr_vdISR				: Pointer to Function					: Function to be executed
+ * Input4 	: inptr_vdCallback			: Pointer to the callback function      : Pointer to function
  * Return 	: ErrorStatus				: Error Status of function
  */
-ErrorStatus TMR1_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8DutyCycle, u8 incpy_u8RunCallBackFunc, void (*inptr_vdISR) (void))
+ErrorStatus TMR1_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8DutyCycle, u8 incpy_u8RunCallBackFunc, void (*inptr_vdCallback) (void))
 {
 	u32 Loc_OCR1AValue = 0;
 	u8 Loc_u8GlobIntStatus = 0;
@@ -252,7 +252,7 @@ ErrorStatus TMR1_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8DutyCycle, u8 incpy_
 	{
 		return INVALID_FUNCTION;
 	}
-	if (TRUE == incpy_u8RunCallBackFunc && NULL == inptr_vdISR)
+	if (TRUE == incpy_u8RunCallBackFunc && NULL == inptr_vdCallback)
 	{
 		return NULL_POINTER_PASSED;
 	}
@@ -299,7 +299,7 @@ ErrorStatus TMR1_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8DutyCycle, u8 incpy_
 	}
 	Loc_OCR1AValue = (0xFFFF < Loc_OCR1AValue) ? 0xFFFF : Loc_OCR1AValue;
 
-	Globptr_vdTMR1_CTC_ISR = inptr_vdISR;
+	Globptr_vdTMR1Callback = inptr_vdCallback;
 	
 	/*Disabling Global Interrupt while accessing a 16-bit registers*/
 	Loc_u8GlobIntStatus = GET_GLOB_INT();
@@ -348,8 +348,8 @@ void __vector_17(void)
 		TCCR1B &= 0xF8;		/*Turning Timer off by removing pre-scaler*/
 	}
 
-	if (NULL != Globptr_vdTMR1_CTC_ISR)
+	if (NULL != Globptr_vdTMR1Callback)
 	{
-		Globptr_vdTMR1_CTC_ISR();
+		Globptr_vdTMR1Callback();
 	}
 }

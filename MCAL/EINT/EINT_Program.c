@@ -17,17 +17,17 @@
  * Input1 	: incpy_u8INTnumber		: Choose which Interrupt to enable		: EINT0-EINT7
  * Input2 	: incpy_u8INTmode		: Choosing the mode of operation		: EINT_Low, EINT_AnyChange, EINT_FallEdge, EINT_RiseEdge
  * Input3 	: incpy_u8PullupEnable	: Enable or Disable Pull up resistor	: EINT_PULLUP, EINT_NOPULLUP
- * Input4 	: inptr_vdISR			: Pointer to the required ISR function
+ * Input4 	: inptr_vdCallback		: Pointer to the callback function      : Pointer to function
  * Return 	: ErrorStatus			: Error Status of function
  */
-ErrorStatus EINT_Enable(u8 incpy_u8INTnumber, u8 incpy_u8INTmode, u8 incpy_u8PullupEnable, void (*inptr_vdISR) (void))
+ErrorStatus EINT_Enable(u8 incpy_u8INTnumber, u8 incpy_u8INTmode, u8 incpy_u8PullupEnable, void (*inptr_vdCallback) (void))
 {
 	ErrorStatus Loc_ErrorStatusReturn = NO_ERROR;
 
 	Loc_ErrorStatusReturn = EINT_EnableCheck(incpy_u8INTnumber);
 	RETURN_IF_ERROR(Loc_ErrorStatusReturn);
 
-	if (NULL == inptr_vdISR)
+	if (NULL == inptr_vdCallback)
 	{
 		return NULL_POINTER_PASSED;
 	}
@@ -112,32 +112,32 @@ ErrorStatus EINT_Enable(u8 incpy_u8INTnumber, u8 incpy_u8INTmode, u8 incpy_u8Pul
 		return INVALID_PARAMETERS;
 	}
 
-	/*Place the User's ISR Location in the respective Global variable to be called from the original ISR function*/
+	/*Place the User's Callback function's Location in the respective Global variable to be called by the ISR*/
 	switch (incpy_u8INTnumber)
 	{
 	#if DO_INCLUDE == EINT_INCLUDE_INT0
-		case EINT0:	Globptr_vdEINT0 = inptr_vdISR;	break;
+		case EINT0:	Globptr_vdEINT0 = inptr_vdCallback;	break;
 	#endif
 	#if DO_INCLUDE == EINT_INCLUDE_INT1
-		case EINT1:	Globptr_vdEINT1 = inptr_vdISR;	break;
+		case EINT1:	Globptr_vdEINT1 = inptr_vdCallback;	break;
 	#endif
 	#if DO_INCLUDE == EINT_INCLUDE_INT2
-		case EINT2:	Globptr_vdEINT2 = inptr_vdISR;	break;
+		case EINT2:	Globptr_vdEINT2 = inptr_vdCallback;	break;
 	#endif
 	#if DO_INCLUDE == EINT_INCLUDE_INT3
-		case EINT3:	Globptr_vdEINT3 = inptr_vdISR;	break;
+		case EINT3:	Globptr_vdEINT3 = inptr_vdCallback;	break;
 	#endif
 	#if DO_INCLUDE == EINT_INCLUDE_INT4
-		case EINT4:	Globptr_vdEINT4 = inptr_vdISR;	break;
+		case EINT4:	Globptr_vdEINT4 = inptr_vdCallback;	break;
 	#endif
 	#if DO_INCLUDE == EINT_INCLUDE_INT5
-		case EINT5:	Globptr_vdEINT5 = inptr_vdISR;	break;
+		case EINT5:	Globptr_vdEINT5 = inptr_vdCallback;	break;
 	#endif
 	#if DO_INCLUDE == EINT_INCLUDE_INT6
-		case EINT6:	Globptr_vdEINT6 = inptr_vdISR;	break;
+		case EINT6:	Globptr_vdEINT6 = inptr_vdCallback;	break;
 	#endif
 	#if DO_INCLUDE == EINT_INCLUDE_INT7
-		case EINT7:	Globptr_vdEINT7 = inptr_vdISR;	break;
+		case EINT7:	Globptr_vdEINT7 = inptr_vdCallback;	break;
 	#endif
 	default:	/*Do Nothing*/						break;
 	}

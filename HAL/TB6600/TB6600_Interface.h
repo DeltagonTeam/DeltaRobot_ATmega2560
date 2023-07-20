@@ -61,10 +61,10 @@ ErrorStatus TB6600_Init(u8 incpy_u8MotorNumber);
  * Input1 	: incpy_u8MotorNumber	: Motor number						: TB_MOTOR0 - TB_MOTOR3
  * Input2 	: incpy_u8Dir			: Motor direction					: TB_DIR_CW, TB_DIR_CCW
  * Input3 	: incpy_u8Speed			: Motor speed in pulses per second  : 0 to hold the motor in its position
- * Input4 	: inptr_vdISR			: Pointer to Function				: Function to be executed with each step
+ * Input4 	: inptr_vdCallback		: Pointer to the callback function  : Pointer to function
  * Return 	: ErrorStatus			: Error Status of function
  */
-ErrorStatus TB6600_Engage(u8 incpy_u8MotorNumber, u8 incpy_u8Dir, u8 incpy_u8Speed, void (*inptr_vdISR) (void));
+ErrorStatus TB6600_Engage(u8 incpy_u8MotorNumber, u8 incpy_u8Dir, u8 incpy_u8Speed, void (*inptr_vdCallback) (void));
 
 /* 
  * Function	: TB6600_Disengage		: Allows the motor to move freely
