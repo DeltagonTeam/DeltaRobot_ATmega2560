@@ -118,13 +118,19 @@ ErrorStatus MODES_GCodeMode(void)
 
 
 /*Private Functions Definitions*/
-ErrorStatus MODES_MovePlatform(f32* inptr_f32Velocities)
+ErrorStatus MODES_MovePlatform(const f32* inptr_f32Velocities)
 {
 	ErrorStatus Loc_ErrorStatusReturn = NO_ERROR;
 
 	f32 Loc_f32Coords[3] = {0,0,0};
+	f32 Loc_f32Velocities[3] = {0,0,0};
 	f32 Loc_f32Thetas[3] = {0,0,0};
 	f32 Loc_f32ThetaDots[3] = {0,0,0};
+
+	/*Copying Velocities*/
+	Loc_f32Velocities[0] = inptr_f32Velocities[0];
+	Loc_f32Velocities[1] = inptr_f32Velocities[1];
+	Loc_f32Velocities[2] = inptr_f32Velocities[2];
 
 	/*Reading Thetas from Angles*/
     Loc_f32Thetas[0] = 0.003141593F * Glob_s16CurrentStep0;
@@ -136,28 +142,28 @@ ErrorStatus MODES_MovePlatform(f32* inptr_f32Velocities)
 	RETURN_IF_ERROR(Loc_ErrorStatusReturn);
 
 	/*Workspace Checks*/
-    if (PLATFORM_ORIGIN_MIN_Z > Loc_f32Coords[2] && 0 > inptr_f32Velocities[2])	
+    if (PLATFORM_ORIGIN_MIN_Z > Loc_f32Coords[2] && 0 > Loc_f32Velocities[2])	
     {
-		inptr_f32Velocities[2] = 0;
+		Loc_f32Velocities[2] = 0;
     }
-	if (PLATFORM_ORIGIN_MAX_Z < Loc_f32Coords[2] && 0 < inptr_f32Velocities[2])
+	if (PLATFORM_ORIGIN_MAX_Z < Loc_f32Coords[2] && 0 < Loc_f32Velocities[2])
 	{
-		inptr_f32Velocities[2] = 0;
+		Loc_f32Velocities[2] = 0;
 	}
     if (PLATFORM_ORIGIN_MAX_XY * PLATFORM_ORIGIN_MAX_XY < (Loc_f32Coords[0] * Loc_f32Coords[0])+(Loc_f32Coords[1] * Loc_f32Coords[1]))
     {
-		if ( (0 > Loc_f32Coords[0] && 0 > inptr_f32Velocities[0]) || (0 < Loc_f32Coords[0] && 0 < inptr_f32Velocities[0]) || 0 == Loc_f32Coords[0])
+		if ( (0 > Loc_f32Coords[0] && 0 > Loc_f32Velocities[0]) || (0 < Loc_f32Coords[0] && 0 < Loc_f32Velocities[0]) || 0 == Loc_f32Coords[0])
 		{
-			inptr_f32Velocities[0] = 0;
+			Loc_f32Velocities[0] = 0;
 		}
-		if ( (0 > Loc_f32Coords[1] && 0 > inptr_f32Velocities[1]) || (0 < Loc_f32Coords[1] && 0 < inptr_f32Velocities[1]) || 0 == Loc_f32Coords[1])
+		if ( (0 > Loc_f32Coords[1] && 0 > Loc_f32Velocities[1]) || (0 < Loc_f32Coords[1] && 0 < Loc_f32Velocities[1]) || 0 == Loc_f32Coords[1])
 		{
-			inptr_f32Velocities[1] = 0;
+			Loc_f32Velocities[1] = 0;
 		}	
     }
 
 	/*Calculating Theta Dots*/
-	Loc_ErrorStatusReturn = KIN_GetThetaDots(Loc_f32Coords, inptr_f32Velocities, Loc_f32Thetas, Loc_f32ThetaDots);
+	Loc_ErrorStatusReturn = KIN_GetThetaDots(Loc_f32Coords, Loc_f32Velocities, Loc_f32Thetas, Loc_f32ThetaDots);
 	RETURN_IF_ERROR(Loc_ErrorStatusReturn);
 
 	/*Moving the Motors*/

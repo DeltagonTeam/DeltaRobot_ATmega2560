@@ -38,7 +38,7 @@ static f32 Glob_f32GCode[3][20];
 
 
 /*Private Functions Declarations*/
-ErrorStatus MODES_MovePlatform(f32* inptr_f32Velocities);
+ErrorStatus MODES_MovePlatform(const f32* inptr_f32Velocities);
 /*__________________________________________________________________________________________________________________________________________*/
 
 
