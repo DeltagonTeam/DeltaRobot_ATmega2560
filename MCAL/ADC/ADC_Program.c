@@ -14,7 +14,7 @@
 /*Public Functions Definitions*/
 /* 
  * Function	: ADC_Init					: Initializes the ADC
- * Input1 	: incpy_u8Channel			: The channel to be initialized
+ * Input1 	: incpy_u8Channel			: The channel to be initialized		: ADC_CHANNEL0 - ADC_CHANNEL15
  * Return 	: ErrorStatus	    		: Error Status of function
  */
 ErrorStatus ADC_Init(u8 incpy_u8Channel)
@@ -61,7 +61,7 @@ ErrorStatus ADC_Init(u8 incpy_u8Channel)
 
 /*
  * Function	: ADC_ReadChannel		: Reads an analog input from the chosen channel
- * Input1 	: incpy_u8Channel		: Channel to read			: ADC_CHANNEL0-ADC_CHANNEL15
+ * Input1 	: incpy_u8Channel		: Channel to read			: ADC_CHANNEL0 - ADC_CHANNEL15
  * Output1	: outptr_u16ADCVal		: Value of the ADC reading	: 0 - ADC_MAX_VALUE
  * Return 	: ErrorStatus	    	: Error Status of function
  */
