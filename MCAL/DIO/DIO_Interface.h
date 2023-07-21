@@ -114,6 +114,7 @@ ErrorStatus DIO_WritePin (u8 incpy_u8Port, u8 incpy_u8Pin, u8 incpy_u8Val);
  * Return 	: ErrorStatus	    : Error Status of function
  */
 ErrorStatus DIO_ReadPin (u8 incpy_u8Port, u8 incpy_u8Pin, u8* outptr_u8Val);
+/*__________________________________________________________________________________________________________________________________________*/
 
 
 #endif /*DIO_INTERFACE_H*/
