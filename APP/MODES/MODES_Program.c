@@ -113,9 +113,9 @@ ErrorStatus MODES_GCodeMode(void)
 	Loc_f32Distance[1] = Glob_f32GCode_YCoords[Loc_u8GCodeIndex] - Loc_f32Coords[1];
 	Loc_f32Distance[2] = Glob_f32GCode_ZCoords[Loc_u8GCodeIndex] - Loc_f32Coords[2];
 
-	Loc_f32Distance[0] = (3 > fabsf(Loc_f32Distance[0])) ? 0 : Loc_f32Distance[0];
-	Loc_f32Distance[1] = (3 > fabsf(Loc_f32Distance[1])) ? 0 : Loc_f32Distance[1];
-	Loc_f32Distance[2] = (3 > fabsf(Loc_f32Distance[2])) ? 0 : Loc_f32Distance[2];
+	Loc_f32Distance[0] = (10 > fabsf(Loc_f32Distance[0])) ? 0 : Loc_f32Distance[0];
+	Loc_f32Distance[1] = (10 > fabsf(Loc_f32Distance[1])) ? 0 : Loc_f32Distance[1];
+	Loc_f32Distance[2] = (10 > fabsf(Loc_f32Distance[2])) ? 0 : Loc_f32Distance[2];
 	
 	Loc_f32Velocities[0] = (Loc_f32Distance[0]/(2*PLATFORM_ORIGIN_MAX_XY)) * MAX_VELOCITY;
 	Loc_f32Velocities[1] = (Loc_f32Distance[1]/(2*PLATFORM_ORIGIN_MAX_XY)) * MAX_VELOCITY;
