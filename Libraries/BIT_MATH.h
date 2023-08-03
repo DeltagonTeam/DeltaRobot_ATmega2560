@@ -16,7 +16,7 @@
 #define CLR_BIT(Var,BitNo) 						(Var) = (Var) & ~(1<<(BitNo))
 #define TOGGLE_BIT(Var,BitNo) 					(Var) = (Var) ^ (1<<(BitNo))
 #define GET_BIT(Var,BitNo) 						(((Var) >> (BitNo)) & 1)
-#define MAKE_BIT(Var,BitNo,Val)					(Var) = (((Var) & (~(1<<BitNo))) | (Val<<BitNo))
+#define MAKE_BIT(Var,BitNo,Val)					(Var) = (((Var) & (~(1<<(BitNo)))) | ((Val)<<(BitNo)))
 
     /*Concatenating*/
 #define CONC_BIT(A7,A6,A5,A4,A3,A2,A1,A0) 		CONC_HELP(A7,A6,A5,A4,A3,A2,A1,A0) //text replacement first
