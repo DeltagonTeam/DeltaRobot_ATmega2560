@@ -31,7 +31,7 @@
 #define NO_OF_COORDS 7
 static f32 Glob_f32GCode_XCoords[NO_OF_COORDS] = {0, 	60, 	60, 	-60, 	-60,	60,		0};
 static f32 Glob_f32GCode_YCoords[NO_OF_COORDS] = {0, 	60, 	-60,	-60, 	60, 	60,		0};
-static f32 Glob_f32GCode_ZCoords[NO_OF_COORDS] = {375, 	375, 	375, 	375, 	375, 	375,	375};
+static f32 Glob_f32GCode_ZCoords[NO_OF_COORDS] = {-375, -375, 	-375, 	-375, 	-375, 	-375,	-375};
 /*__________________________________________________________________________________________________________________________________________*/
 
 

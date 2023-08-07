@@ -306,7 +306,7 @@ ErrorStatus TMR1_PWMStart(u16 incpy_u8Frequency, u8 incpy_u8DutyCycle, u8 incpy_
 	DISABLE_GLOB_INT();
 
 	OCR1A = Loc_OCR1AValue;
-	OCR1B = (0 < incpy_u8DutyCycle)? (OCR1A / (100/incpy_u8DutyCycle)) : 0;
+	OCR1B = (0 != incpy_u8DutyCycle)? (OCR1A / (100/incpy_u8DutyCycle)) : 0;
 
 	if (TRUE == incpy_u8RunCallBackFunc)
 	{

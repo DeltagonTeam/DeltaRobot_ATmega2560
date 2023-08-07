@@ -25,7 +25,7 @@ static volatile u8 Glob_Move = 1;
 /*Private Definitions*/
 	/*Movement Definitions*/
 #define GEAR_RATIO 			(5.0F)
-#define MAX_VELOCITY 		(60.0F)
+#define MAX_VELOCITY 		(240.0F)
 #define STEPPING_FACTOR 	(2.0F)
 #define STEP_ANGLE_DEG		(1.8F)
 #define STEPS_PER_REV		(200.0F)

@@ -54,6 +54,7 @@ ErrorStatus ADC_Init(u8 incpy_u8Channel);
  * Return 	: ErrorStatus	    	: Error Status of function
  */
 ErrorStatus ADC_ReadChannel(u8 incpy_u8Channel, u16* outptr_u16ADCVal);
+/*__________________________________________________________________________________________________________________________________________*/
 
 
 #endif /*ADC_INTERFACE_H*/

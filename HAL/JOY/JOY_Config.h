@@ -23,8 +23,8 @@
 #define JOY0_X      ADC_CHANNEL4
 #define JOY0_Y      ADC_CHANNEL3
 
-#define JOY1_X      ADC_CHANNEL5
-#define JOY1_Y      ADC_CHANNEL6
+#define JOY1_X      ADC_CHANNEL6
+#define JOY1_Y      ADC_CHANNEL5
 
 #define JOY2_X      ADC_NOT_A_CHANNEL
 #define JOY2_Y      ADC_NOT_A_CHANNEL
